@@ -14,6 +14,10 @@ Two things follow from that:
 - **Specs are the project's memory.** Code is derived. If a decision is not written in `specs/`, it does not exist. Before answering any question about the project, read the specs; when reality and the specs diverge, fix the specs in the same turn as the code.
 - **The user never loses control of what gets generated.** Every phase boundary is a checkpoint the user signs off on. Architecture is documented visually and kept current. No silent scope expansion, no undocumented components.
 
+## Relationship to `spec-phase`
+
+This skill **iterates**: it takes the next unchecked roadmap phase automatically and works through the roadmap in order. When the user wants a *specific* phase instead - out of order, or chosen deliberately - that is `spec-phase`. If the user names a phase, hand off to `spec-phase` when it is available.
+
 ## Non-negotiable rules
 
 1. **AskUserQuestion before writing.** Every `spec.md`, constitution file and feature spec is preceded by an `AskUserQuestion` round. Group the questions to mirror the files being written (3 files -> 3 grouped questions). Never write these to disk from assumptions alone.
@@ -22,6 +26,7 @@ Two things follow from that:
 4. **Verify library facts, don't recall them.** Before pinning a version, an API shape or a config, pull current docs with **context7** (`resolve-library-id` -> `get-library-docs`). Fall back to web search if context7 is unavailable. Training-memory version numbers are a defect.
 5. **Diagrams ship with code.** Any change that adds, removes or rewires a component updates the LikeC4 model in the same change set. A PR that changes architecture without changing `architecture/` is incomplete.
 6. **`TODO.md` overrides `roadmap.md` ordering.** The roadmap is the plan; `TODO.md` is what's next *now*. When they disagree, follow `TODO.md` and tell the user the roadmap is drifting.
+7. **Match the file shapes below exactly.** Heading depth is not cosmetic - it is the house style, and a file one level off has to be hand-fixed every time.
 
 ## Repository layout this skill maintains
 
@@ -42,6 +47,17 @@ architecture/
   *.c4                    LikeC4 model - single source of truth for structure
   README.md               how to run/build the diagrams
 ```
+
+## Generated file conventions
+
+These apply to every file this skill writes. They are the difference between output the user keeps and output the user reformats.
+
+- **One `#` per file, and it is the file's own title** - `# Mission`, `# Roadmap`, `# Tech Stack`, `# Phase 1 Plan — {Feature-Name}`. Never open a spec file with `# {Project}`; the project name belongs in `spec.md`, not repeated as a wrapper heading.
+- **Top-level sections are `##`. Sub-sections are `###`.** Do not nest deeper than `###` in any generated spec file.
+- **No HTML comment header.** The template files in the reference repo carry a `<!-- Template for spec-driven development -->` block; that marks the *template*, not generated output. Do not reproduce it.
+- **Em dash in feature-file titles**, hyphen in roadmap phase headings: `# Phase 1 Requirements — {Feature-Name}` but `## Phase 1 - Project Foundation (Week 1)`.
+- **Blank line after every heading**, before the content that follows it.
+- **Title Case for headings.**
 
 ## Workflow
 
@@ -76,21 +92,27 @@ Trigger: a new project whose `README.md` holds the stakeholder input.
 ## Project Definition
 
 ### Business Goals
+
 Why this exists. One paragraph per goal, traceable to a stakeholder bullet in README.md.
 
 ### Functional Specs
+
 Stated in highly testable language - specific enough that each line passes or fails a test.
+
 - The system MUST ...
 - Given X, when Y, then Z.
 
 ### Tech Stack / Rules
+
 Technical constraints that bound the solution space. Not the full stack (that's tech-stack.md) -
 the non-negotiables: languages, hosting limits, compliance, budget, existing systems to integrate.
 
 ### I/O Data & Edge Cases
+
 Explicit acceptance criteria. Inputs, outputs, boundary conditions, failure modes.
 
 ## Tactical Steps
+
 1. Explore the repo - map the architecture
 2. Clarify specs - resolve ambiguous requirements
 3. Create spec - formal specification
@@ -99,6 +121,7 @@ Explicit acceptance criteria. Inputs, outputs, boundary conditions, failure mode
 6. Review diff - review the diff against the spec
 
 ## Best Practices
+
 - Test mapping - every functional spec line maps to a test
 - Validation hooks
 - Task agents for parallel work
@@ -119,28 +142,129 @@ Trigger: `spec.md` signed off, or "create the constitution".
 - *Tech stack* - the real choices. Offer 2-4 concrete options per layer with trade-offs, not open-ended prompts. Consult context7 for current versions and compatibility before presenting options.
 - *Roadmap* - phase granularity and ordering, what belongs in Phase 1 vs. deferred.
 
-Then write:
+Then write the three files, in these exact shapes.
 
-**`specs/mission.md`** - Mission / Core Concept / Key Features (bulleted, `**Feature** - capability`) / Samples / What We Do / Who We Serve / Target Audience / What Success Looks Like.
+**`specs/mission.md`**
 
-**`specs/tech-stack.md`** - Overview, then one table per layer with a **Rationale column that is actually filled in**:
+```markdown
+# Mission
+
+{Project}'s top mission.
+
+## Core Concept
+
+The core concept behind the app.
+
+## Key Features
+
+- **Feature 1** - Capability 1
+- **Feature 2** - Capability 2
+- **Feature 3** - Capability 3
+
+### Samples
+
+Examples.
+
+<!-- Generated section -->
+
+## What We Do
+
+**{Project}** goal.
+
+## Who We Serve
+
+- **User type 1** — profile description.
+- **User type 2** — profile description.
+
+## Target Audience
+
+- **User group 1** behaviour.
+- **User group 2** behaviour.
+
+## What Success Looks Like
+
+Ultimate goal.
+```
+
+Note: `### Samples` nests **under** Key Features. The `<!-- Generated section -->` marker separates the human-authored top from the part this skill derives - keep it.
+
+**`specs/tech-stack.md`**
+
+```markdown
+# Tech Stack
+
+## Overview
+
+One paragraph on the shape of the system.
+
+## Core
 
 | Layer | Choice | Rationale |
 | --- | --- | --- |
 
-Cover only the layers the project has: Frontend (framework, meta-framework, language, styling, components, state, data fetching), Backend (runtime, API, language, validation), Data, AI/ML, Orchestration, Pipelines, Streaming, Infra/Deploy, Testing, Tooling. Close with a **What We Are Not Using** section - explicit deferrals are as valuable as choices.
+## FrontEnd
 
-**`specs/roadmap.md`** - small phases, each a shippable slice:
+| Layer | Choice | Rationale |
+| --- | --- | --- |
+| Framework | ... | ... |
+| Meta-framework | ... | ... |
+| Language | ... | ... |
+| Styling | ... | ... |
+| Component Library | ... | ... |
+| State Management | ... | ... |
+| Data Fetching | ... | ... |
 
-```markdown
-### Phase 1 - Project Foundation (Week 1)
+## Backend
 
-#### 1.1 {Task group}
-- [ ] Concrete, checkable item
-- [ ] ...
+| Layer | Choice | Rationale |
+| --- | --- | --- |
+| Runtime | ... | ... |
+| API | ... | ... |
+| Language | ... | ... |
+| Validation | ... | ... |
+
+## Data
+
+- **{Store}** (via `{driver}`) for {use} — {why}
+- Migration approach
+
+## Testing
+
+- Testing tools
+
+## Tooling
+
+- `{tool}` for {purpose}
+
+## What We Are Not Using
+
+- No {thing} — {why not, and when it would become relevant}
 ```
 
-Mark completed phases `Complete - YYYY-MM-DD` rather than deleting them.
+Three things to get right here: the section is spelled **`## FrontEnd`**; **Core, FrontEnd and Backend are tables**, while **Data, Testing, Tooling and What We Are Not Using are bullet lists**; and the **Rationale column is always filled in** - an empty rationale is a missing decision. Add only the sections the project actually has, and extend with AI/ML, Orchestration, Pipelines, Streaming or Infra/Deploy as tables when they apply.
+
+**`specs/roadmap.md`**
+
+```markdown
+# Roadmap
+
+Phases are intentionally small — each one is a shippable slice of work, independently reviewable and testable.
+
+---
+
+## Phase 1 - Project Foundation (Week 1)
+
+### 1.1 {Task group}
+
+- [ ] Concrete, checkable item
+- [ ] ...
+
+---
+
+Later phases (not yet planned): {list}.
+```
+
+Phases are `##`, task groups are `###`, and a blank line follows every heading. Mark completed phases `Complete - YYYY-MM-DD` rather than deleting them.
 
 Then: build the first LikeC4 model from the constitution, propose the commit commands, and **stop for sign-off**.
 
@@ -150,6 +274,8 @@ Then: build the first LikeC4 model from the constitution, propose the commit com
 
 Trigger: "next feature", "next phase", or the user names one.
 
+**If the user named a specific phase and the `spec-phase` skill is available, hand off to it** - deliberate, out-of-order phase selection is what it exists for. Otherwise continue here, taking the next phase automatically.
+
 1. Read `TODO.md` first, then `specs/roadmap.md`. `TODO.md`'s *Now* section wins. If `TODO.md` is empty, take the next unchecked roadmap phase.
 2. Read `specs/mission.md` and `specs/tech-stack.md` - the feature must be consistent with both.
 3. Propose the branch command:
@@ -157,13 +283,63 @@ Trigger: "next feature", "next phase", or the user names one.
    git checkout -b feature/{feature-name}
    ```
 4. **Mandatory `AskUserQuestion`**, grouped on the three files: scope & out-of-scope boundaries (requirements), task-group breakdown and sequencing (plan), and what proves it's done (validation).
-5. Create `specs/YYYY-MM-DD-feature-name/` using today's real date, and write:
+5. Get today's real date (`date +%F`) - never guess it. Create `specs/YYYY-MM-DD-feature-name/` and write the three files in these exact shapes:
 
-**`requirements.md`** - `## Scope`, `## Out of Scope`, `## Decisions` (configuration and architectural choices, with the reasoning), `## Context`, `## Stakeholder Notes`.
+```markdown
+# Phase {N} Requirements — {Feature-Name}
 
-**`plan.md`** - numbered task groups, each group a coherent unit of work with numbered steps. Groups are ordered so that each one leaves the project in a working state.
+## Scope
 
-**`validation.md`** - `### Definition of Done` as numbered, executable checks (commands to run, expected outputs, manual steps), plus a `### Not Required` section bounding the effort.
+What this feature delivers. Specific enough to test.
+
+## Out of Scope
+
+- Explicitly deferred, so the boundary is on record
+
+## Decisions
+
+Configuration and architectural choices, each with the reason and the alternative rejected.
+
+## Context
+
+Why now, what it depends on, what depends on it.
+
+## Stakeholder Notes
+
+- **{User}** needs this to behave like X
+- **{User}** has no requirements yet; this phase is plumbing only
+```
+
+```markdown
+# Phase {N} Plan — {Feature-Name}
+
+## Group 1 - {name}
+
+1. Step 1
+2. Step 2
+3. Step 3
+
+## Group 2 - {name}
+
+1. Step 1
+2. Step 2
+```
+
+```markdown
+# Phase {N} Validation — {Feature-Name}
+
+## Definition of Done
+
+### 1. {Check}
+
+Command to run, expected output.
+
+### 2. {Check}
+
+## Not Required
+
+- What this phase does NOT have to prove
+```
 
 6. **Stop for sign-off** before implementing.
 
