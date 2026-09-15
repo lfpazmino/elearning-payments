@@ -7,7 +7,7 @@ description: "Turn a conversation that produced a working prototype into a spec-
 
 A conversation that ends in a working prototype holds a project's requirements, scattered across dozens of turns and mixed in with throwaway implementation. This skill harvests that conversation into the two files `spec-dev` reads first: a `README.md` written as **requirements**, and a `TODO.md` of what's left.
 
-This is the on-ramp. Output feeds `/spec-dev` Phase 1, which turns `README.md` into `spec.md`.
+This is the on-ramp. Output feeds `/spec-dev` Phase 1, which turns `README.md` into `spec.md` and then into roadmap phases.
 
 ## The one hard distinction
 
@@ -145,28 +145,31 @@ Run it: `{command}`
 
 ## Next step
 
-Build this with `/spec-dev` in **{greenfield | brownfield}** mode. `spec.md` traces every R-xx and NFR-xx above.
+Build this with `/spec-dev` in **{greenfield | brownfield}** mode. `spec.md` traces every R-xx and NFR-xx above, and the roadmap breaks the work into phases.
 ```
 
 Write the requirement lines in testable language - specific enough that each one passes or fails a test. "Fast" is not a requirement; "p95 under 200ms at 1k req/s" is. Where the conversation only produced "fast", make it an open question rather than inventing a number.
 
 ### `TODO.md`
 
+`TODO.md` is the ordering authority for everything downstream - `spec-dev` reads it before `roadmap.md`. Write it in exactly this shape:
+
 ```markdown
-# {Project Name}
+# TODO
 
-## TODO
-
-### Now
+## Now
 
 - {The single most valuable next piece of work}
 
-### Next
+## Next
 
 - {Ordered, each traceable to an R-xx or an open question}
+- Evaluate adjustments or refactoring required
 ```
 
-Seed *Now* from the largest gap between what the prototype proves and what the requirements demand - usually the thing the prototype faked.
+`## Now` and `## Next` are `##`, not `###`, and the file's only `#` is `TODO` - not the project name. Seed *Now* from the largest gap between what the prototype proves and what the requirements demand, which is usually the thing the prototype faked.
+
+Each entry names a unit of work that will become a **phase** once `spec-dev` writes the roadmap. Keep them phase-sized: a shippable, independently reviewable slice.
 
 ## Step 6 - Hand off
 
