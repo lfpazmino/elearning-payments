@@ -50,7 +50,7 @@ repository is where it becomes a specified build.
 | ID | Requirement | Provenance |
 | --- | --- | --- |
 | NFR-01 | Static site only: no server-side runtime, deployable as files to GitHub Pages | `[inferred]` |
-| NFR-02 | Use React NextJS Web technology for a responsive Website with a best of class, state-of-the-art best elearning look and feel, with a fancy oustanding, easy to navigate UI| `[stated]` |
+| NFR-02 | Use React NextJS Web technology for a responsive Website with a best of class, state-of-the-art best elearning look and feel, with a fancy oustanding, easy to navigate UI | `[stated]` |
 | NFR-03 | Total page payload SHOULD stay lightweight; target ≤200 KB uncompressed (prototype baseline: 176 KB across four files) | `[inferred]` |
 | NFR-04 | Light and dark presentation, following the operating system with a manual override | `[inferred]` |
 | NFR-05 | Failure of browser storage (private mode, blocked site data) MUST NOT break the page | `[inferred]` |
@@ -104,7 +104,7 @@ Confirmed with the stakeholder, not assumed:
 ## Prototype baseline
 
 A working prototype is in [`prototype/`](prototype/) and is deployed at
-**https://lfpazmino.github.io/payments-academy/** (repo: `lfpazmino/payments-academy`).
+**[https://lfpazmino.github.io/payments-academy/]** (repo: `lfpazmino/payments-academy`).
 
 It proves:
 
