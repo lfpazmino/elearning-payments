@@ -4,11 +4,53 @@
 
 ### Now
 
-- **Schema validation for the course data file (NFR-06).** This is the widest gap between what the
-  prototype proves and what the requirements demand. Content correctness *is* the product, and today
-  a mistyped block type or a missing `objective` either throws at runtime or renders nothing, with
-  no signal at author time. Define the shape of a module, a unit, a block and a resource, validate
-  on load in development, and fail the deploy on a violation.
+Phase 1 (Schema & Content Validation) is done and audited (2026-09-16, see below). Nothing is
+queued in *Now* until the next priority is picked — "Design and implement the notes +
+persistence layer" and "Decide the framework/build-step question" below already flag
+themselves as candidates; that promotion is a deliberate call, not made here.
+
+- **Close two small gaps the Phase 1 audit surfaced (low effort, do first):**
+  - Document `node scripts/validate-course.js` as a required manual step before every deploy
+    (in `README.md` or `prototype/README.md`). The script works and exits non-zero on a schema
+    violation, but nothing currently tells a developer to run it. CI enforcement is deferred by
+    design to Phase 2 (`specs/tech-stack.md`: "Zod schema checks in CI, failing the build on
+    violation") — this covers the manual-deploy gap until then.
+  - Tighten `schema.js` to require a non-empty `check` array per unit. It currently accepts a
+    unit with zero self-checks and would not catch a future regression, even though R-13
+    requires every unit to end with self-check prompts. Not a live bug — all 36 current units
+    have at least one check — but the invariant isn't guarded going forward.
+
+### Phase 1 audit (2026-09-16)
+
+Verified against `specs/roadmap.md` 1.1–1.3 by reading `schema.js`, `validate-load.js`,
+`index.html` and `scripts/validate-course.js`, and by running the validator against the live
+`course.js`. The roadmap's checkmarks hold up:
+
+- **1.1 Schema** — correct and complete. Covers module (`id`, `n`, `title`, `subtitle`), unit
+  (`id`, `title`, `objective`, `mins`, `blocks`, `resources`, `check`) and all 11 block types
+  actually used in `course.js` (confirmed by grep — `h`, `p`, `note`, `ul`, `ol`, `callout`,
+  `table`, `stats`, `qa`, `beats`, `gloss` — none extra, none missing).
+- **1.2 Validate on load / pre-deploy gate** — both wired correctly. `validate-load.js` shows a
+  visible banner listing every violation (stronger than the roadmap's "first violation," not a
+  gap). `scripts/validate-course.js` is genuinely npm-free (no `package.json`, no dependencies)
+  and exits non-zero on failure — confirmed by running it: "Content valid — 36 units across 11
+  modules, 86 resources," matching the README's stated baseline exactly.
+- **1.3 Retrofit** — confirmed zero violations; nothing needed retrofitting.
+- **Process gaps found, not code gaps** (see *Now* above for the two worth fixing immediately):
+  - No `specs/YYYY-MM-DD-*/` directory exists for Phase 1 (no `requirements.md`/`plan.md`/
+    `validation.md`) — it shipped without this project's own spec-phase workflow, so there was
+    no recorded Definition of Done to check against; this audit reconstructed one from the
+    roadmap checklist instead.
+  - No `CHANGELOG.md` exists anywhere in the repo — the spec-phase skill's close-out step calls
+    for a dated entry per phase; none was ever created. Worth starting one now rather than
+    backfilling Phase 1's history.
+  - `architecture/model.c4` was not touched by the Phase 1 commit (`12d68a6`). Not treated as a
+    defect here — `schema.js`/`validate-course.js` are dev-time tooling, not a new runtime
+    container — but confirm that reasoning deliberately next time rather than assuming it.
+- **Content observation, not a defect:** three units (`stage/hard-questions`,
+  `stage/ninety-seconds`, `stage/glossary`) have zero resources. The schema correctly allows
+  this — it reads as intentional, since all three are module 10 rehearsal/closing units rather
+  than standard content units.
 
 ### Next
 
