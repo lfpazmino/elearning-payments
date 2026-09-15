@@ -1,0 +1,111 @@
+specification {
+  element actor
+  element system
+  element container
+  element datastore
+  tag prototype
+  tag planned
+}
+
+model {
+  reader = actor 'Reader' {
+    description 'The single stakeholder, studying for a Sibos 2026 speaking slot and keeping the site as a durable personal reference afterward.'
+  }
+
+  academy = system 'Payments Academy' {
+    description 'Self-paced eLearning site covering the payments industry.'
+
+    web = container 'Web App' {
+      description 'Renders modules/units, tracks progress, hosts the per-unit notes editor.'
+      technology 'Next.js (App Router, output: export) + Tailwind CSS'
+    }
+
+    content = container 'Course Content (prototype)' {
+      #prototype
+      description 'Retired once Phase 3 migrates content into Supabase. 11 modules, 36 units, 86 resources hardcoded as one JS data file.'
+      technology 'course.js — window.COURSE object'
+    }
+
+    browserStorage = datastore 'Browser Storage (prototype)' {
+      #prototype
+      description 'Retired once Phase 3 moves progress to Supabase. Per-browser completion state and theme preference, no cross-device sync.'
+      technology 'localStorage'
+    }
+
+    db = datastore 'Supabase Postgres' {
+      #planned
+      description 'Source of truth for course content, per-reader completion state, and unit notes.'
+      technology 'PostgreSQL via Supabase, free tier'
+    }
+
+    storage = datastore 'Supabase Storage' {
+      #planned
+      description 'Images pasted into the per-unit notes editor.'
+      technology 'Object storage via Supabase, free tier'
+    }
+
+    backup = datastore 'Content Backup (JSON)' {
+      #planned
+      description 'course-export.json committed to the repo. Reseeds a fresh or reactivated Supabase project if the free-tier instance is paused or deleted for inactivity.'
+      technology 'Static JSON file, generated on a schedule'
+    }
+  }
+
+  ci = system 'GitHub Actions' {
+    #planned
+    description 'Builds and deploys the static export to Pages; runs the scheduled Supabase-to-JSON backup export.'
+  }
+
+  fonts = system 'Google Fonts' {
+    description 'Webfont CDN: Archivo, Source Serif 4, IBM Plex Mono.'
+  }
+
+  pages = system 'GitHub Pages' {
+    description 'Static hosting for the public repository, served under a project subpath (basePath).'
+  }
+
+  resources = system 'External Learning Resources' {
+    description '86 free external links (whitepapers, docs, regulator sites) cited by units.'
+  }
+
+  reader -> web 'reads units, marks completion, writes notes'
+  web -> content 'renders modules/units/blocks from' { #prototype }
+  web -> browserStorage 'reads/writes completion + theme' { #prototype }
+  web -> db 'reads content; reads/writes progress and notes' { #planned }
+  web -> storage 'uploads/reads note images' { #planned }
+  web -> fonts 'loads webfonts from'
+  web -> resources 'links out to (86 URLs)'
+  pages -> web 'serves as static files'
+  ci -> web 'builds (next build, output: export) and deploys to' { #planned }
+  ci -> db 'reads content from, on schedule' { #planned }
+  ci -> backup 'writes' { #planned }
+}
+
+views {
+  view index {
+    title 'Payments Academy — Context'
+    include *
+  }
+
+  view ofAcademy of academy {
+    title 'Payments Academy — Containers'
+    include *
+  }
+
+  view current {
+    title 'Payments Academy — Current prototype (as shipped)'
+    include reader, pages, fonts, resources
+    include academy.web, academy.content, academy.browserStorage
+    include reader -> academy.web
+    include academy.web -> academy.content
+    include academy.web -> academy.browserStorage
+    include academy.web -> fonts
+    include academy.web -> resources
+    include pages -> academy.web
+  }
+
+  view target {
+    title 'Payments Academy — Target (post-roadmap constitution)'
+    include * where tag is not #prototype
+  }
+}
