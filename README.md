@@ -183,3 +183,10 @@ implementation detail.
 
 Named sources the stakeholder required be used: Icon Solutions IPF design, MongoDB's cross-border
 agentic payments material, and Stripe's free payments resources for per-section reading.
+
+## Appendix B - running prototype
+
+```bash
+python -m http.server 8000
+# then open http://localhost:8000
+```
