@@ -19,8 +19,8 @@ This project runs on the `spec-dev` skill, in **brownfield** mode — the protot
 exists and is deployed, so the build evolves it rather than restarting. `spec-readme` already
 produced `README.md` and `TODO.md` from the original conversation; `spec-dev` has since
 produced the constitution (`specs/mission.md`, `specs/tech-stack.md`, `specs/roadmap.md`) but
-**`spec.md` and dated feature specs do not exist yet**. Use `feature-spec` to start the next
-phase from `specs/roadmap.md` once a phase is picked up.
+**`spec.md` and dated feature specs do not exist yet**. Use `spec-dev` (its "feature spec"
+phase) to start the next phase from `specs/roadmap.md` once a phase is picked up.
 
 Requirement IDs (`R-01`…`R-19`, `NFR-01`…`NFR-09` in `README.md`) are stable identifiers and
 must never be renumbered, even when requirements are dropped — drop by deletion or by marking

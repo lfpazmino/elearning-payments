@@ -12,21 +12,21 @@ requires, without coupling it to a larger rewrite.
 
 ### 1.1 Define the content schema
 
-- [ ] Write a schema for module, unit, block (per declared type) and resource shapes,
+- [x] Write a schema for module, unit, block (per declared type) and resource shapes,
       matching what `course.js` actually contains today
-- [ ] Cover every block type currently in use (prose, table, callout, statistic tiles,
-      Q&A, timeline, glossary, etc.)
+- [x] Cover every block type currently in use (`h`, `p`, `note`, `ul`, `ol`, `callout`,
+      `table`, `stats`, `qa`, `beats`, `gloss`)
 
 ### 1.2 Validate on load and at deploy time
 
-- [ ] Validate `window.COURSE` against the schema in development, surfacing the first
+- [x] Validate `window.COURSE` against the schema in development, surfacing the first
       violation with a unit/module path, not a silent render failure
-- [ ] Add a pre-deploy check (npm-free script, since the prototype has no package.json
+- [x] Add a pre-deploy check (npm-free script, since the prototype has no package.json
       yet) that fails the build on a schema violation
 
 ### 1.3 Retrofit any violations the schema surfaces
 
-- [ ] Fix any existing content that fails validation (expected: none, since the schema is
+- [x] Fix any existing content that fails validation (expected: none, since the schema is
       derived from current content, but confirm)
 
 ---
