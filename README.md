@@ -51,6 +51,7 @@ repository is where it becomes a specified build.
 | --- | --- | --- |
 | NFR-01 | Static site only: no server-side runtime, deployable as files to GitHub Pages | `[inferred]` |
 | NFR-02 | Use React NextJS Web technology for a responsive Website with a best of class, state-of-the-art best elearning look and feel, with a fancy oustanding, easy to navigate UI| `[stated]` |
+| NFR-03 | Total page payload SHOULD stay lightweight; target ≤200 KB uncompressed (prototype baseline: 176 KB across four files) | `[inferred]` |
 | NFR-04 | Light and dark presentation, following the operating system with a manual override | `[inferred]` |
 | NFR-05 | Failure of browser storage (private mode, blocked site data) MUST NOT break the page | `[inferred]` |
 | NFR-06 | Course content MUST be editable as a single data file by a developer, and MUST be validated before deploy | `[agreed]` |
@@ -58,9 +59,9 @@ repository is where it becomes a specified build.
 | NFR-08 | Initially the database used should be free accessible as a service (like Supabase). In future iterations, a more advanced data layer will be considered | `[inferred]` |
 | NFR-09 | The elearning content is for now static hardcoded in the prototype. It should be migrated to a database | `[inferred]` |
 
-> **Fourteen of these are still `[inferred]`** — nine functional (R-05, R-07, R-08, R-11, R-12,
-> R-13, R-14, R-16, R-18) and five non-functional (NFR-01, NFR-03, NFR-04, NFR-05, NFR-07, NFR-08), with
-> NFR-02 part-stated. They describe how the prototype behaves, not something
+> **Sixteen of these are still `[inferred]`** — nine functional (R-05, R-07, R-08, R-11, R-12,
+> R-13, R-14, R-16, R-18) and seven non-functional (NFR-01, NFR-03, NFR-04, NFR-05, NFR-07, NFR-08,
+> NFR-09), with NFR-02 part-stated. They describe how the prototype behaves, not something
 > the stakeholder asked for. `spec-dev` Phase 1 must confirm or drop each one before it becomes
 > binding. The four largest inferences — progress storage, audience, authoring model and
 > continuation mode — were already put to the stakeholder and are recorded as `[agreed]` above and
@@ -129,7 +130,7 @@ Run it: `cd prototype && python3 -m http.server 8000`, then open `http://localho
 ## Open questions
 
 - Should the elearning content be stored in the database?
-- What testable number defines "lightweight"? NFR-02 proposes ≤200 KB uncompressed; unconfirmed.
+- What testable number defines "lightweight"? NFR-03 proposes ≤200 KB uncompressed; unconfirmed.
 - What accessibility target applies? Keyboard navigation between units exists; focus management on
   route change does not.
 - Does the content need search? It is at 36 units and growing.

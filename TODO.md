@@ -12,12 +12,21 @@
 
 ### Next
 
-- **Confirm or drop the fourteen `[inferred]` requirements** (R-05, R-07, R-08, R-11, R-12, R-13,
-  R-14, R-16, R-18, NFR-01, NFR-03, NFR-04, NFR-05, NFR-07). Anything that survives gets re-tagged
-  `[agreed]` and traced into `spec.md`; anything that does not gets deleted. Until this is done the
-  spec is building on assumptions.
-- **Settle the "lightweight" number** (NFR-02, open question). Agree a payload ceiling and enforce
-  it, or the requirement is untestable and will quietly stop meaning anything as content grows.
+- **Design and implement the notes + persistence layer** (R-19, NFR-07, NFR-08, NFR-09; Decisions
+  table rows "Progress in database storage" and "Course content stored in a database", both marked
+  *Revisit at spec time*). This is unimplemented, not just unpolished — the prototype proves none of
+  it. R-19 needs a per-unit note editor (bold/italic/strike, clipboard image paste); NFR-07/NFR-08
+  ask for a free-tier database (e.g. Supabase) to persist progress, completions and notes-with-images;
+  NFR-09 asks whether course content itself should move off `course.js` into that same store. All
+  four items are `[inferred]` or explicitly un-decided. This is likely a wider gap than schema
+  validation above and may belong in *Now* instead of *Next* — worth a deliberate call, not a default.
+- **Confirm or drop the sixteen `[inferred]`/part-stated requirements** (R-05, R-07, R-08, R-11,
+  R-12, R-13, R-14, R-16, R-18, NFR-01, NFR-03, NFR-04, NFR-05, NFR-07, NFR-08, NFR-09). Anything
+  that survives gets re-tagged `[agreed]` and traced into `spec.md`; anything that does not gets
+  deleted. Until this is done the spec is building on assumptions. This now includes `NFR-03`
+  (payload ≤200 KB uncompressed), restored as a numbered row — it had been dropped from the table
+  and left as a dangling reference in the inferred-count paragraph and the Open Questions section;
+  both are now fixed to point at it correctly.
 - **Decide the framework/build-step question** (Decisions, marked *Revisit*). It was never actually
   decided — it happened. It constrains everything downstream, so it should be a decision with a
   recorded reason, whichever way it goes.
