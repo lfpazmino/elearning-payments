@@ -1,7 +1,7 @@
+# Payments Academy — Project Instructions
+
 @README.md
 @TODO.md
-
-# Payments Academy — Project Instructions
 
 ## What this is
 
@@ -9,7 +9,7 @@ A self-paced eLearning site on the payments industry (rails, settlement, regulat
 payment-hub architecture, AI/agentic payments), built as personal enablement for a Sibos
 2026 speaking slot and kept afterward as a durable reference. One reader, no accounts, no
 multi-learner tracking. A working prototype (static HTML/CSS/JS, no build step) is deployed
-at https://lfpazmino.github.io/payments-academy/ (repo `lfpazmino/payments-academy`) and is
+at [https://lfpazmino.github.io/payments-academy/] (repo `lfpazmino/payments-academy`) and is
 in daily use. This repository is where that prototype becomes a specified, framework-backed
 build per `specs/roadmap.md`.
 
