@@ -259,6 +259,690 @@
           ]
         },
         {
+          "id": "landscape",
+          "title": "The payments landscape",
+          "mins": 60,
+          "objective": "Map the whole industry in one pass — instruments, schemes, business models, actors, money and rules — so that no term later in this course arrives unexplained.",
+          "blocks": [
+            {
+              "t": "p",
+              "v": "Every other unit in this course goes deep on one part of payments. This one goes wide. It exists because the scheme names — instant payments, faster payments, request to pay, direct debit — turn up in the resources and the conversation long before anything explains how they relate to each other, and a map you can hold in your head is worth more at this stage than depth in any single corner."
+            },
+            {
+              "t": "callout",
+              "title": "How to read this unit",
+              "v": "This is a map, not a destination. Every area below has a module later that takes it apart properly — settlement mechanics in module 02, the rails market by market in 03, business models in 04, regulation in 05, the technical requirements in 06 to 08. Read this for orientation, then come back to it whenever a name shows up that you cannot place."
+            },
+            {
+              "t": "h",
+              "v": "Five families of payment instrument"
+            },
+            {
+              "t": "table",
+              "head": [
+                "Instrument",
+                "How it starts",
+                "Typical speed",
+                "Who carries the loss"
+              ],
+              "rows": [
+                [
+                  "Credit transfer",
+                  "The payer pushes money to the payee",
+                  "Next day, or seconds on an instant scheme",
+                  "The payer's bank, once it is irrevocable"
+                ],
+                [
+                  "Direct debit",
+                  "The payee pulls, on a mandate granted earlier",
+                  "Days, on a collection cycle",
+                  "The creditor and its bank, through refund rights"
+                ],
+                [
+                  "Card payment",
+                  "Authorisation now, settlement later, via a scheme",
+                  "Authorised in seconds, settled in days",
+                  "Issuer for fraud, acquirer for merchant default"
+                ],
+                [
+                  "Wallet or overlay",
+                  "A familiar interface on top of another rail",
+                  "Whatever the underlying rail does",
+                  "Depends entirely on the rail underneath"
+                ],
+                [
+                  "Digital currency",
+                  "Tokenised value moved on a ledger",
+                  "Seconds, continuously",
+                  "Issuer and holder, under MiCA or the GENIUS Act"
+                ]
+              ]
+            },
+            {
+              "t": "p",
+              "v": "The distinction that generates most of the rest is <strong>push versus pull</strong>. Push instruments put the payer in control at the moment of payment, so protection is thin afterwards. Pull instruments let the payee initiate without the payer present, so the scheme compensates with refund rights and dispute machinery. That single asymmetry explains why direct debit has an eight-week no-questions refund, why cards have chargebacks, and why instant credit transfers have neither — and therefore why authorised push payment fraud became a policy problem."
+            },
+            {
+              "t": "h",
+              "v": "The schemes you keep meeting — Europe and the UK"
+            },
+            {
+              "t": "table",
+              "head": [
+                "Scheme",
+                "What it is",
+                "Speed",
+                "Ceiling"
+              ],
+              "rows": [
+                [
+                  "SEPA Credit Transfer (SCT)",
+                  "Standard euro credit transfer",
+                  "Next business day",
+                  "No scheme-wide limit"
+                ],
+                [
+                  "SEPA Instant (SCT Inst)",
+                  "Instant euro credit transfer",
+                  "10 seconds, 20-second hard ceiling",
+                  "€100,000, raisable by agreement"
+                ],
+                [
+                  "SEPA Direct Debit Core",
+                  "Consumer pull, on a mandate",
+                  "Days, on a cycle",
+                  "8-week unconditional refund right"
+                ],
+                [
+                  "SEPA Direct Debit B2B",
+                  "Business pull, on a verified mandate",
+                  "Days, on a cycle",
+                  "No refund right"
+                ],
+                [
+                  "SEPA Request-to-Pay (SRTP)",
+                  "Messaging layer — the payee asks, the payer decides",
+                  "Conversational; no money moves on it",
+                  "Not a payment instrument"
+                ],
+                [
+                  "TARGET T2",
+                  "Eurosystem RTGS, central bank money",
+                  "Real time, business hours",
+                  "No limit"
+                ],
+                [
+                  "TIPS",
+                  "Eurosystem instant settlement service",
+                  "Seconds, 24/7/365",
+                  "Scheme limit applies"
+                ],
+                [
+                  "RT1 (EBA CLEARING)",
+                  "Instant clearing mechanism",
+                  "Seconds, 24/7/365",
+                  "Scheme limit applies"
+                ],
+                [
+                  "STEP2 (EBA CLEARING)",
+                  "Bulk clearing, netted in cycles",
+                  "Cycles",
+                  "No limit"
+                ],
+                [
+                  "UK Faster Payments",
+                  "Instant credit transfer",
+                  "Seconds, occasionally up to two hours",
+                  "£1 m scheme cap; banks set lower"
+                ],
+                [
+                  "UK CHAPS",
+                  "Bank of England RTGS, high value",
+                  "Same day, business hours",
+                  "No limit"
+                ],
+                [
+                  "UK Bacs",
+                  "Batch, netted",
+                  "Three working days",
+                  "No limit"
+                ]
+              ]
+            },
+            {
+              "t": "h",
+              "v": "…and the United States and beyond"
+            },
+            {
+              "t": "table",
+              "head": [
+                "Scheme",
+                "Where",
+                "What it is",
+                "Speed"
+              ],
+              "rows": [
+                [
+                  "ACH (FedACH, EPN)",
+                  "US",
+                  "Batch, netted, Nacha-governed",
+                  "Same-day option, otherwise one to two days"
+                ],
+                [
+                  "Fedwire Funds",
+                  "US",
+                  "Federal Reserve RTGS, ISO 20022-native",
+                  "Real time, business hours"
+                ],
+                [
+                  "CHIPS",
+                  "US",
+                  "Privately operated, netted, high value",
+                  "Same day"
+                ],
+                [
+                  "RTP",
+                  "US",
+                  "The Clearing House instant rail, prefunded",
+                  "Seconds, 24/7"
+                ],
+                [
+                  "FedNow",
+                  "US",
+                  "Federal Reserve instant rail",
+                  "20-second timeout clock"
+                ],
+                [
+                  "Pix",
+                  "Brazil",
+                  "Central-bank-operated instant scheme",
+                  "Seconds, 24/7"
+                ],
+                [
+                  "UPI",
+                  "India",
+                  "Instant overlay on bank accounts",
+                  "Seconds, 24/7"
+                ],
+                [
+                  "Wero (EPI)",
+                  "Europe",
+                  "Account-to-account overlay, sovereignty play",
+                  "Seconds"
+                ]
+              ]
+            },
+            {
+              "t": "note",
+              "v": "Pix and UPI are worth knowing by name even though you will never build on them. They are the benchmark everyone measures against: the US runs at roughly 0.12 fast payments per person per month, against 27 in Brazil. When someone says instant payments have not taken off, they mean in their own market."
+            },
+            {
+              "t": "h",
+              "v": "Business models: how the industry is organised"
+            },
+            {
+              "t": "table",
+              "head": [
+                "Model",
+                "What it sells",
+                "Who pays",
+                "Where the margin sits"
+              ],
+              "rows": [
+                [
+                  "Card acquiring",
+                  "Acceptance and settlement for merchants",
+                  "Merchant, via the service charge",
+                  "Spread over interchange and scheme fees"
+                ],
+                [
+                  "Pay by bank / A2A",
+                  "Direct debit of the bank account, no card rails",
+                  "Merchant, usually a flat fee",
+                  "The interchange it avoids"
+                ],
+                [
+                  "Gateway / PSP",
+                  "Connectivity, tokenisation, routing",
+                  "Merchant",
+                  "Per-transaction fee; thin at scale"
+                ],
+                [
+                  "Payment orchestration",
+                  "Routing across several PSPs",
+                  "Merchant",
+                  "Subscription plus authorisation-rate uplift"
+                ],
+                [
+                  "Processor",
+                  "Technical processing for banks and acquirers",
+                  "Bank or acquirer",
+                  "Volume, with high operating leverage"
+                ],
+                [
+                  "Payment facilitator",
+                  "Aggregated acceptance for sub-merchants",
+                  "Sub-merchant",
+                  "Resold acceptance, less fraud losses"
+                ],
+                [
+                  "Merchant of record",
+                  "The legal sale, plus tax and compliance",
+                  "Merchant",
+                  "A higher take rate for carrying liability"
+                ],
+                [
+                  "Banking as a service",
+                  "Licence, accounts and rails to a brand",
+                  "The fintech brand",
+                  "Platform fee plus a share of interchange"
+                ],
+                [
+                  "Scheme",
+                  "Rules, brand and reach",
+                  "Issuers and acquirers",
+                  "Scheme fees, at near-zero marginal cost"
+                ],
+                [
+                  "Correspondent banking",
+                  "Cross-border reach and liquidity",
+                  "The originating bank",
+                  "FX spread plus lifting fees"
+                ],
+                [
+                  "Wallet",
+                  "The consumer interface and stored credentials",
+                  "Merchant, sometimes the consumer",
+                  "Interchange share, float and data"
+                ]
+              ]
+            },
+            {
+              "t": "h",
+              "v": "The actors, and what each one carries"
+            },
+            {
+              "t": "table",
+              "head": [
+                "Actor",
+                "Role",
+                "Carries"
+              ],
+              "rows": [
+                [
+                  "Issuer",
+                  "Gives the payer the instrument",
+                  "Credit and fraud loss"
+                ],
+                [
+                  "Acquirer",
+                  "Contracts with the merchant",
+                  "Merchant default and chargebacks"
+                ],
+                [
+                  "Scheme",
+                  "Sets the rules and the interchange",
+                  "Brand and systemic risk; moves no money"
+                ],
+                [
+                  "Processor",
+                  "Runs the technical rails for others",
+                  "Availability"
+                ],
+                [
+                  "Gateway / PSP",
+                  "Connects a merchant to the rails",
+                  "Little financial risk — which shapes what it builds"
+                ],
+                [
+                  "PayFac / merchant of record",
+                  "Aggregates, or legally owns, the sale",
+                  "Onboarding fraud, tax, compliance"
+                ],
+                [
+                  "Bank / credit institution",
+                  "Holds accounts, reaches central bank settlement",
+                  "Settlement, liquidity, compliance"
+                ],
+                [
+                  "Payment institution",
+                  "Executes payments, takes no deposits",
+                  "Operational and compliance risk"
+                ],
+                [
+                  "E-money institution",
+                  "Issues e-money against funds received",
+                  "Safeguarding of client funds"
+                ],
+                [
+                  "AISP / PISP",
+                  "Reads data, or initiates payment, on consent",
+                  "Consent handling and PSD liability"
+                ],
+                [
+                  "CSM operator",
+                  "Clears between participants",
+                  "Scheme integrity"
+                ],
+                [
+                  "RTGS operator",
+                  "Settles in central bank money",
+                  "Systemic risk"
+                ]
+              ]
+            },
+            {
+              "t": "note",
+              "v": "The pattern worth carrying out of that table: whoever bears settlement and fraud risk buys resilience and real-time data; whoever bears neither buys flexibility and speed to market. That one sentence predicts most technology procurement in this industry, and module 04 takes it further."
+            },
+            {
+              "t": "h",
+              "v": "Where the money comes from"
+            },
+            {
+              "t": "table",
+              "head": [
+                "Revenue stream",
+                "Who captures it",
+                "What is eroding it"
+              ],
+              "rows": [
+                [
+                  "Transaction fees",
+                  "PSPs, acquirers, processors",
+                  "Commoditisation; the IPR forbids charging more for instant than standard"
+                ],
+                [
+                  "Interchange and scheme fees",
+                  "Issuers and schemes",
+                  "Capped in the EU since 2015; uncapped in the US"
+                ],
+                [
+                  "Float and net interest income",
+                  "Banks, wallets, merchants of record",
+                  "Instant settlement destroys the float outright"
+                ],
+                [
+                  "FX spread",
+                  "Correspondents, PSPs, wallets",
+                  "PSD3 forces the margin to be disclosed upfront"
+                ],
+                [
+                  "Value-added services",
+                  "Everyone, in principle",
+                  "Nothing yet — which is exactly why the whole industry is moving here"
+                ]
+              ]
+            },
+            {
+              "t": "callout",
+              "title": "The uncomfortable truth to carry into every business case",
+              "v": "Instant rails compress fees and destroy float. There is almost never an incremental-revenue case for instant payments infrastructure. The defensible cases are regulatory deadlines, cost-to-serve, and the ability to launch a scheme without running a programme. Saying this out loud, against your own interest, is one of the strongest credibility moves available to you."
+            },
+            {
+              "t": "h",
+              "v": "The shape of the market"
+            },
+            {
+              "t": "stats",
+              "v": [
+                {
+                  "n": "25% → 32%",
+                  "c": "Instant payments and e-money as a share of non-cash transaction volume, 2024 to 2029",
+                  "s": "Capgemini WPR 2026",
+                  "hi": true
+                },
+                {
+                  "n": "65% → 47%",
+                  "c": "Cards' share of transaction volume, 2020 to 2029 — falling in share while still growing in absolute terms",
+                  "s": "Capgemini WPR 2026",
+                  "hi": true
+                },
+                {
+                  "n": "20.2%",
+                  "c": "Asia-Pacific non-cash transaction CAGR to 2029 — the fastest region by a distance",
+                  "s": "Capgemini WPR 2026"
+                },
+                {
+                  "n": "10.8%",
+                  "c": "Europe's CAGR, pushed along by instant-payments regulation rather than demand",
+                  "s": "Capgemini WPR 2026"
+                },
+                {
+                  "n": "7.8%",
+                  "c": "North America's CAGR — the slowest, because wallets and same-day ACH already feel instant",
+                  "s": "Capgemini WPR 2026"
+                },
+                {
+                  "n": "550 bn",
+                  "c": "Card transactions processed by the top 150 acquirers worldwide in 2024, up 6.1% year on year",
+                  "s": "Nilson Report"
+                },
+                {
+                  "n": "~2%",
+                  "c": "Of revenue that merchants lose to fraud annually",
+                  "s": "Capgemini WPR 2026"
+                },
+                {
+                  "n": "7 days vs 60 min",
+                  "c": "Merchant onboarding time at banks against paytechs — the gap driving merchant attrition",
+                  "s": "Capgemini WPR 2026"
+                }
+              ]
+            },
+            {
+              "t": "h",
+              "v": "Who the major players are"
+            },
+            {
+              "t": "table",
+              "head": [
+                "Category",
+                "EMEA",
+                "US and global"
+              ],
+              "rows": [
+                [
+                  "Card schemes",
+                  "Visa, Mastercard, plus domestic schemes such as Cartes Bancaires and Bancomat",
+                  "Visa, Mastercard, American Express, Discover"
+                ],
+                [
+                  "Merchant acquirers",
+                  "Worldline, Nexi, Adyen, Checkout.com, Elavon Europe",
+                  "Fiserv, JPMorgan Payments, Global Payments and Worldpay, Stripe, Nuvei"
+                ],
+                [
+                  "Wallets and overlays",
+                  "Wero, iDEAL, Bizum, Blik, Swish, Klarna",
+                  "PayPal, Apple Pay, Google Pay, Zelle, Cash App"
+                ],
+                [
+                  "Payment hub and core software",
+                  "Temenos, Icon Solutions, Finastra, Volante, Form3, Tietoevry",
+                  "Oracle, FIS, Fiserv, ACI Worldwide, Volante"
+                ],
+                [
+                  "Infrastructure operators",
+                  "EBA CLEARING for RT1 and STEP2, the Eurosystem for T2 and TIPS, Pay.UK",
+                  "The Clearing House for RTP and CHIPS, the Federal Reserve for FedACH, Fedwire and FedNow"
+                ],
+                [
+                  "Cross-border",
+                  "Swift, Wise, Banking Circle, Ebury",
+                  "Swift, Western Union, and the emerging stablecoin rails"
+                ]
+              ]
+            },
+            {
+              "t": "note",
+              "v": "Treat any published ranking of payment providers with care — they disagree, because they measure different things. Nilson counts card transactions processed, others count total payment volume including account-to-account, and several large processors do not break the figure out at all. Know the names and roughly where each one sits; do not quote a league table position you cannot source."
+            },
+            {
+              "t": "h",
+              "v": "Regulation, and what it actually forces"
+            },
+            {
+              "t": "table",
+              "head": [
+                "Where",
+                "Instrument",
+                "What it forces on a provider"
+              ],
+              "rows": [
+                [
+                  "EU",
+                  "Instant Payments Regulation",
+                  "24/7 send and receive, no price premium for instant, Verification of Payee on every credit transfer"
+                ],
+                [
+                  "EU",
+                  "PSD3 and the PSR",
+                  "Extended fraud liability, fraud-data sharing between PSPs, SCA rework, IBAN-name checks, upfront FX-margin disclosure"
+                ],
+                [
+                  "EU",
+                  "FIDA",
+                  "Data access beyond payment accounts, with compensation arrangements"
+                ],
+                [
+                  "EU",
+                  "DORA",
+                  "Auditable ICT resilience: risk management, incident reporting, third-party oversight, threat-led penetration testing"
+                ],
+                [
+                  "EU",
+                  "MiCA",
+                  "Stablecoin issuance, reserve composition and redemption rights"
+                ],
+                [
+                  "Global",
+                  "ISO 20022 and CBPR+",
+                  "Structured data on the wire, against dated migration deadlines through 2028"
+                ],
+                [
+                  "US",
+                  "Nacha Operating Rules",
+                  "ACH obligations, same-day windows, return rights and timeframes"
+                ],
+                [
+                  "US",
+                  "Regulation E and Regulation CC",
+                  "Consumer error resolution and funds-availability rules"
+                ],
+                [
+                  "US",
+                  "GENIUS Act",
+                  "Stablecoin issuance and reserve requirements"
+                ],
+                [
+                  "Global",
+                  "G20 cross-border roadmap",
+                  "Targets on cost, speed, access and transparency"
+                ]
+              ]
+            },
+            {
+              "t": "note",
+              "v": "Read that right-hand column again as a list of data requirements. Verification of Payee is sub-second name matching against a live beneficiary directory. Fraud-data sharing is an inter-institution data pipeline. DORA is evidence you can produce on demand. Structured addresses are a customer-data programme. Almost nothing on that list is really about messaging — which is the argument module 08 builds."
+            },
+            {
+              "t": "h",
+              "v": "What all of this demands technically"
+            },
+            {
+              "t": "p",
+              "v": "Everything above lands on the same platform, and it lands as two kinds of requirement. These are the headlines; modules 06 to 08 take each one apart."
+            },
+            {
+              "t": "ul",
+              "v": [
+                "<strong>Multi-scheme reachability and routing</strong> — which rail can reach this beneficiary, at what cost, within which cut-off.",
+                "<strong>A canonical internal model</strong> with per-scheme mapping in and out, so a new scheme is configuration rather than a rewrite.",
+                "<strong>The risk gauntlet in the payment path</strong> — sanctions screening, fraud scoring, Verification of Payee, limits, duplicate detection, each inside its share of the scheme's latency budget.",
+                "<strong>Real-time position keeping</strong> — can the customer afford it, and can the bank fund it on this rail right now, at three in the morning on a Sunday.",
+                "<strong>Mandate management</strong> for every pull instrument, and consent management for every agentic or open-banking one.",
+                "<strong>Exception handling</strong> — returns, recalls, investigations and repairs. The long tail with no SLA, the highest cost per item, and the worst tooling in most institutions.",
+                "<strong>Reconciliation</strong> against both the scheme and the ledger, because agreement with the counterparty is the only real proof of correctness.",
+                "<strong>Regulatory reporting and retention</strong> — every state transition reconstructable years later."
+              ]
+            },
+            {
+              "t": "ul",
+              "v": [
+                "<strong>24/7/365 with no maintenance window.</strong> Instant schemes removed the batch night, and the IPR made availability a legal obligation rather than an SLA.",
+                "<strong>A decomposed latency budget.</strong> The scheme gives you a total; you divide it across screening, fraud, orchestration, persistence and posting.",
+                "<strong>Peak-to-mean design.</strong> Payments are spiky — salary dates, tax deadlines, Black Friday. Averages are a trap.",
+                "<strong>RPO zero.</strong> For money movement, correctness beats availability at the point where they conflict.",
+                "<strong>Elastic horizontal scale</strong> in units you can add without a migration.",
+                "<strong>Data residency</strong> — increasingly decisive in Europe, and cheaper to design in than to retrofit.",
+                "<strong>Observability and auditability</strong> — every state transition traceable, retained and reconstructable for a regulator or a dispute.",
+                "<strong>Demonstrable resilience.</strong> Under DORA, recovery behaviour is evidence you produce, not a property you assert."
+              ]
+            },
+            {
+              "t": "callout",
+              "title": "The through-line",
+              "v": "Every business model in this unit ends up as a non-functional requirement. A wallet that monetises float needs different data than an acquirer that monetises spread. An instant scheme's ten-second rule is a latency budget. An eight-week refund right is a retention policy. Regulation is a data requirement wearing a compliance hat. If you can walk that chain in both directions — from a commercial model down to an NFR, and back up — you can hold your own with anyone in this industry."
+            },
+            {
+              "t": "note",
+              "v": "Where each thread continues: settlement and scheme mechanics in module 02, the rails market by market in 03, business models and institutions in 04, the regulatory clock in 05, payment hub architecture in 06, distributed architecture and integrity in 07, and the non-functional requirements and data argument in 08."
+            }
+          ],
+          "resources": [
+            {
+              "tag": "Report",
+              "title": "Capgemini World Payments Report 2026",
+              "url": "https://www.capgemini.com/wp-content/uploads/2025/09/WPR_2026_4e6d5a.pdf",
+              "note": "Free PDF, and the source for most of the market figures above. Read the payment-mix and regional-growth sections; skip the vendor pitch at the end."
+            },
+            {
+              "tag": "Report",
+              "title": "McKinsey Global Payments Report",
+              "url": "https://www.mckinsey.com/industries/financial-services/our-insights/global-payments-report",
+              "note": "Free and annual. The revenue-pool section is the one the room silently quotes."
+            },
+            {
+              "tag": "Primer",
+              "title": "The payment industry ecosystem explained",
+              "url": "https://stripe.com/resources/more/the-payment-industry-ecosystem-explained",
+              "note": "Stripe. The best free map of who does what on the acceptance side, which bank-centric material tends to skip entirely."
+            },
+            {
+              "tag": "Primer",
+              "title": "How Faster Payments in the UK works",
+              "url": "https://stripe.com/resources/more/faster-payments",
+              "note": "Stripe. Speeds, limits and where Faster Payments sits against CHAPS and Bacs — the clearest short treatment of the UK trio."
+            },
+            {
+              "tag": "Operator",
+              "title": "Nilson Report — largest merchant acquirers worldwide",
+              "url": "https://nilsonreport.com/largest-merchant-acquirers/",
+              "note": "Who actually processes the volume, and by how much. Useful for calibrating any vendor's claim about their own scale."
+            },
+            {
+              "tag": "Rulebook",
+              "title": "European Payments Council",
+              "url": "https://www.europeanpaymentscouncil.eu/",
+              "note": "The scheme rulebooks behind half the rows in the Europe table — SCT, SCT Inst, SDD and SRTP. Come back here once a specific scheme matters."
+            },
+            {
+              "tag": "Regulator",
+              "title": "BIS CPMI cross-border payments programme",
+              "url": "https://www.bis.org/committees/cpmi/cross-border-payments/overview",
+              "note": "The definitional home for clearing, settlement and correspondent banking, and the source of the G20 targets."
+            }
+          ],
+          "check": [
+            "Draw the landscape from memory on one page: instruments, schemes, actors, money. If a box is empty, that is your next unit.",
+            "Place five scheme names you have seen in this course — one European, one UK, one US, one overlay, one messaging-only — and say what each does.",
+            "For a European merchant taking pay-by-bank payments, list every actor in the flow and who carries which risk.",
+            "Name the five revenue streams and what is eroding each one.",
+            "Pick one business model and walk it down to three non-functional requirements it forces on the platform."
+          ]
+        },
+        {
           "id": "rails-terminology",
           "title": "Rails — and the words everyone confuses",
           "mins": 40,
