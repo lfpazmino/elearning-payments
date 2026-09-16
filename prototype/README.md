@@ -22,18 +22,6 @@ some browsers restrict `localStorage` on that scheme, so progress may not save.
 
 ## Before every deploy
 
-The content file is schema-validated before it ships. From the repository root, run:
-
-```bash
-node scripts/validate-course.js
-```
-
-It must pass — exit code `0`, printing `Content valid — 36 units across 11 modules, 86 resources.` —
-before you deploy any change. CI enforcement of this check is deferred to Phase 2, so for now this
-is a manual, must-run step.
-
-## Before every deploy
-
 Run the pre-deploy content check and confirm it exits `0`:
 
 ```bash
