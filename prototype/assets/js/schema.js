@@ -65,7 +65,7 @@
         if (!isPosNum(u.mins)) fail(unitLabel + ".mins", "must be a positive number");
         if (!isArr(u.blocks)) fail(unitLabel + ".blocks", "must be an array");
         if (!isArr(u.resources)) fail(unitLabel + ".resources", "must be an array");
-        if (!isArr(u.check)) fail(unitLabel + ".check", "must be an array");
+        if (!isArr(u.check) || u.check.length === 0) fail(unitLabel + ".check", "must be a non-empty array");
         units++;
 
         (u.blocks || []).forEach(function (b, bi) {

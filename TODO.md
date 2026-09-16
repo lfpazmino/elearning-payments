@@ -4,21 +4,17 @@
 
 ### Now
 
-Phase 1 (Schema & Content Validation) is done and audited (2026-09-16, see below). Nothing is
-queued in *Now* until the next priority is picked — "Design and implement the notes +
-persistence layer" and "Decide the framework/build-step question" below already flag
-themselves as candidates; that promotion is a deliberate call, not made here.
+Phase 1 (Schema & Content Validation) is done, audited, and closed out. The two gaps the
+2026-09-16 audit surfaced are now fixed and recorded in
+`specs/2026-09-16-schema-content-validation/`:
 
-- **Close two small gaps the Phase 1 audit surfaced (low effort, do first):**
-  - Document `node scripts/validate-course.js` as a required manual step before every deploy
-    (in `README.md` or `prototype/README.md`). The script works and exits non-zero on a schema
-    violation, but nothing currently tells a developer to run it. CI enforcement is deferred by
-    design to Phase 2 (`specs/tech-stack.md`: "Zod schema checks in CI, failing the build on
-    violation") — this covers the manual-deploy gap until then.
-  - Tighten `schema.js` to require a non-empty `check` array per unit. It currently accepts a
-    unit with zero self-checks and would not catch a future regression, even though R-13
-    requires every unit to end with self-check prompts. Not a live bug — all 36 current units
-    have at least one check — but the invariant isn't guarded going forward.
+- `schema.js` rejects a unit with an empty `check` array (R-13).
+- `node scripts/validate-course.js` is documented as a required pre-deploy step in both
+  `README.md` and `prototype/README.md`.
+
+Nothing is queued in *Now* until the next priority is picked — "Design and implement the notes +
+persistence layer" and "Decide the framework/build-step question" below flag themselves as
+candidates; that promotion is a deliberate call, not made here.
 
 ### Phase 1 audit (2026-09-16)
 

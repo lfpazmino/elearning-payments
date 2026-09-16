@@ -116,7 +116,6 @@ It proves:
 
 It is **not** production scaffolding. Known gaps:
 
-- No schema validation on the content file — a malformed unit fails silently or throws at runtime
 - No tests of any kind
 - No accessibility audit; focus is not managed on route change
 - Storage failures are caught but never surfaced to the reader
@@ -126,6 +125,10 @@ It is **not** production scaffolding. Known gaps:
 - Module numbers are hand-maintained in the data and can drift from actual order
 
 Run it: `cd prototype && python3 -m http.server 8000`, then open `http://localhost:8000`.
+
+Before every deploy, validate the content: run `node scripts/validate-course.js` from the repository
+root; it must pass (exit code `0`). CI enforcement is deferred to Phase 2, so this is a manual,
+must-run step — see [`prototype/README.md`](prototype/README.md).
 
 ## Open questions
 
