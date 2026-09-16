@@ -1298,6 +1298,499 @@
             "Explain why on-us payments are the most commonly forgotten volume in a capacity model.",
             "State what your system should do when a submitted payment gets no response at all."
           ]
+        },
+        {
+          "id": "service-matrix",
+          "title": "Putting it together — the payment service matrix",
+          "mins": 55,
+          "objective": "Assemble everything in this module into one connected view: each payment service across all four lifecycle stages, its rails, SLAs, customers, rules, actors, fees and market implementations — and never confuse a service with a settlement mechanism again.",
+          "blocks": [
+            {
+              "t": "p",
+              "v": "You now have the pieces: the lifecycle, the rails, clearing versus settlement, the message layer, the two directions of flow. This unit assembles them. Five tables, all sharing the same eight rows in the same order, so that reading one service straight down gives you its complete picture — what happens at each stage, what it runs on, who is involved, who gets paid, and what it looks like in each major market."
+            },
+            {
+              "t": "callout",
+              "title": "The confusion this unit exists to kill",
+              "v": "<strong>Instant payments is a service. RTGS is a settlement mechanism.</strong> They are not alternatives and they are not the same kind of thing — they answer different questions and sit at different layers. An instant payment is what the customer buys; RTGS is how the resulting obligation is discharged. TIPS is a settlement service that applies the RTGS model to instant payments. Once you separate these layers, most of the vocabulary stops fighting you."
+            },
+            {
+              "t": "h",
+              "v": "Four questions, four different answers"
+            },
+            {
+              "t": "table",
+              "head": [
+                "Layer",
+                "The question it answers",
+                "Examples"
+              ],
+              "rows": [
+                [
+                  "Payment service",
+                  "What is the customer actually buying?",
+                  "Instant payment, credit transfer, direct debit, card payment, request to pay"
+                ],
+                [
+                  "Scheme",
+                  "Which rulebook governs it — timing, liability, message set?",
+                  "SCT Inst, SDD Core, Visa, FedNow, SRTP"
+                ],
+                [
+                  "Clearing mechanism (CSM)",
+                  "How does the instruction reach the other institution, and how are obligations calculated?",
+                  "RT1, STEP2, TIPS, FedACH, EPN, CHIPS"
+                ],
+                [
+                  "Settlement mechanism",
+                  "How is the obligation discharged, and when is it final?",
+                  "RTGS — gross, immediate, central bank money; or DNS — netted, in cycles"
+                ],
+                [
+                  "Settlement service",
+                  "Which system actually holds and moves the money?",
+                  "T2, TIPS, Fedwire, Federal Reserve master accounts, a prefunded joint account"
+                ],
+                [
+                  "Rail",
+                  "All of the above, composed into something you can send a payment on",
+                  "\"SCT Inst, cleared by RT1, settled in TIPS\" is a rail"
+                ]
+              ]
+            },
+            {
+              "t": "p",
+              "v": "The reason this is confusing is that the same name often appears at more than one layer. TIPS is a clearing mechanism <em>and</em> a settlement service. FedNow is a scheme, an operator and a settlement arrangement at once. Visa is a scheme and a network. None of that is sloppy naming by the industry — it reflects institutions that genuinely do more than one job. The discipline is to say which layer you mean."
+            },
+            {
+              "t": "h",
+              "v": "Where each layer becomes critical in the lifecycle"
+            },
+            {
+              "t": "table",
+              "head": [
+                "Lifecycle stage",
+                "What gets decided",
+                "Layer that dominates",
+                "Why it is critical here"
+              ],
+              "rows": [
+                [
+                  "Initiation",
+                  "Which service the customer chose, and whether it is available for this beneficiary",
+                  "Service",
+                  "The service fixes everything downstream — timing, finality, liability. A wrong choice here cannot be corrected later"
+                ],
+                [
+                  "Validation & Enrichment",
+                  "Format, mandatory fields, routing, risk checks, limits, cut-offs",
+                  "Scheme",
+                  "The rulebook defines what a valid instruction is and what must be checked before it goes. This is where most payments fail"
+                ],
+                [
+                  "Clearing",
+                  "How the instruction reaches the beneficiary's institution",
+                  "Clearing mechanism",
+                  "This is where reachability lives. If the CSM cannot reach that bank, nothing else matters"
+                ],
+                [
+                  "Settlement",
+                  "When the money is final, and who carries risk until it is",
+                  "Settlement mechanism",
+                  "RTGS versus DNS decides whether there is exposure between participants, and how much liquidity you must park to support it"
+                ]
+              ]
+            },
+            {
+              "t": "note",
+              "v": "That table is the direct answer to \"at which stage does this concept become critical?\" A scheme's rules bite hardest at validation. A clearing mechanism's reach bites at clearing. A settlement model's liquidity cost bites at settlement — and, in an instant scheme, that cost is being paid 24 hours a day whether or not payments are flowing."
+            },
+            {
+              "t": "h",
+              "v": "Table 1a — The lifecycle, service by service"
+            },
+            {
+              "t": "table",
+              "head": [
+                "Service",
+                "Initiation",
+                "Validation & Enrichment",
+                "Clearing",
+                "Settlement"
+              ],
+              "rows": [
+                [
+                  "Instant payment",
+                  "Payer pushes at any hour, from an app or API, expecting confirmation in seconds",
+                  "The full risk gauntlet runs in-path — sanctions, fraud, Verification of Payee, limits — inside a ten-to-twenty-second budget",
+                  "Per transaction, never batched; the beneficiary PSP must accept or reject inside the SLA",
+                  "Gross and final immediately, in central bank money or against a prefunded position"
+                ],
+                [
+                  "Credit transfer (standard)",
+                  "Payer pushes by file, API or branch, against a daily cut-off",
+                  "The same checks with far more time; enrichment and repair can happen asynchronously",
+                  "Batched and submitted to a bulk clearing mechanism",
+                  "Deferred net settlement in cycles, or gross through RTGS when the value is high"
+                ],
+                [
+                  "Direct debit",
+                  "Creditor pulls on a stored mandate, having pre-notified the payer",
+                  "Mandate validity, creditor identifier, pre-notification and due date; the debtor bank checks funds at presentment",
+                  "Batched and presented ahead of the due date",
+                  "Net, on the due date — but refund rights stay open for weeks afterwards, so finality is soft"
+                ],
+                [
+                  "Card payment",
+                  "Cardholder presents credentials; authorisation is requested in real time",
+                  "The issuer authorises or declines on funds, fraud scoring, SCA and velocity, typically well under a second",
+                  "Batched capture and clearing files exchanged through the scheme, usually the next day",
+                  "Net settlement between issuer and acquirer via the scheme, days after the purchase"
+                ],
+                [
+                  "Request to Pay",
+                  "The payee sends a request; no money moves at all",
+                  "The payer reviews, then accepts, declines, defers or part-pays",
+                  "Nothing clears — this is a messaging scheme, not a payment scheme",
+                  "Nothing settles; acceptance triggers a separate credit transfer with its own full lifecycle"
+                ],
+                [
+                  "Wallet / overlay",
+                  "Consumer uses a familiar interface; the underlying instrument is chosen for them",
+                  "The wallet handles authentication and tokenisation; the underlying rail does everything else",
+                  "Whatever the underlying rail clears",
+                  "Whatever the underlying rail settles — the wallet itself settles nothing"
+                ],
+                [
+                  "Cross-border (correspondent)",
+                  "Originator instructs its bank, choosing a charge option — OUR, SHA or BEN",
+                  "Sanctions and AML screening at every hop; data quality decides whether it flows or goes to repair",
+                  "The instruction travels over Swift while a cover payment moves funds along the chain",
+                  "Settled on correspondent accounts hop by hop; finality only when the last leg posts"
+                ],
+                [
+                  "Stablecoin transfer",
+                  "Sender initiates on-chain from a wallet",
+                  "Address screening, travel-rule data, issuer allowlists — with no scheme rulebook to lean on",
+                  "Clearing and settlement are the same event: the ledger write",
+                  "Final on ledger confirmation; redeeming to fiat is a separate and much slower step"
+                ]
+              ]
+            },
+            {
+              "t": "h",
+              "v": "Table 1b — Rails, SLAs, customers and rules"
+            },
+            {
+              "t": "table",
+              "head": [
+                "Service",
+                "Rails available",
+                "SLA",
+                "Target segments",
+                "Applicable regulation"
+              ],
+              "rows": [
+                [
+                  "Instant payment",
+                  "SCT Inst over TIPS or RT1; UK Faster Payments; FedNow; RTP; Pix; UPI",
+                  "10 s target with a 20 s ceiling (SEPA); 20 s clock (FedNow); seconds (FPS)",
+                  "Consumers for P2P; gig and insurance payouts; urgent B2B; merchant account-to-account",
+                  "Instant Payments Regulation, SCT Inst rulebook, PSD2/PSD3, AML. In the US, scheme rules plus Regulation E"
+                ],
+                [
+                  "Credit transfer (standard)",
+                  "SCT over STEP2; Bacs and CHAPS; ACH credit; Fedwire; CHIPS",
+                  "Next business day in SEPA; three working days for Bacs; same-day ACH windows",
+                  "Corporates for payroll and suppliers; consumers for bills",
+                  "SEPA Regulation, PSD2/PSD3. In the US, Nacha rules and UCC Article 4A for wires"
+                ],
+                [
+                  "Direct debit",
+                  "SDD Core and SDD B2B over STEP2; Bacs Direct Debit; ACH debit",
+                  "Days, on a collection cycle; an 8-week unconditional refund window on SDD Core",
+                  "Utilities, insurers, subscription billers, lenders — anyone billing repeatedly",
+                  "SEPA Regulation and the SDD rulebooks, PSD2/PSD3. In the US, Nacha and Regulation E"
+                ],
+                [
+                  "Card payment",
+                  "Visa, Mastercard, American Express; domestic schemes such as Cartes Bancaires",
+                  "Authorisation in under a second; settlement one to three days later",
+                  "Consumer retail, e-commerce and travel; merchants of every size",
+                  "Interchange Fee Regulation, PSD2 SCA, scheme rules, PCI DSS. In the US, Regulation II and Regulations Z and E"
+                ],
+                [
+                  "Request to Pay",
+                  "SEPA Request-to-Pay; Pay.UK Request to Pay",
+                  "Conversational — hours or days, bounded by the request's expiry",
+                  "Billers, corporates invoicing, government, landlords",
+                  "The SRTP rulebook, which is voluntary; the payment it triggers carries its own rules"
+                ],
+                [
+                  "Wallet / overlay",
+                  "Wero, iDEAL, Bizum, Blik, Swish, PayPal, Apple Pay, Google Pay, Zelle",
+                  "Inherited entirely from the rail underneath",
+                  "Consumers, and merchants chasing checkout conversion",
+                  "PSD2/PSD3 and e-money rules, the Digital Markets Act for NFC access in the EU, scheme tokenisation rules"
+                ],
+                [
+                  "Cross-border (correspondent)",
+                  "Swift correspondent banking and Swift gpi; interlinked instant schemes; Swift's shared ledger",
+                  "Hours to days. Swift gpi gives you tracking, not speed",
+                  "Corporates, financial institutions, remittance senders",
+                  "FATF standards, sanctions regimes, the EU Transfer of Funds Regulation, CBPR+ deadlines, the G20 targets"
+                ],
+                [
+                  "Stablecoin transfer",
+                  "Public chains and permissioned ledgers; the issuer's own redemption rails",
+                  "Seconds to minutes on-chain; fiat redemption far slower",
+                  "Crypto-native businesses, corporate treasury, thin or weekend corridors",
+                  "MiCA in the EU, the GENIUS Act in the US, plus AML and the travel rule"
+                ]
+              ]
+            },
+            {
+              "t": "note",
+              "v": "Two rows in that table are not really payment services at all, and noticing why is worth more than memorising the rest. <strong>Request to Pay</strong> has no clearing and no settlement because no money moves on it — it is a conversation that ends in a credit transfer. <strong>Wallets</strong> have no SLA of their own because they inherit whatever the rail beneath them does. Both are layers on top of services, which is exactly why they appear in scheme lists and confuse everybody."
+            },
+            {
+              "t": "h",
+              "v": "Table 2 — Who is involved, and who gets paid"
+            },
+            {
+              "t": "table",
+              "head": [
+                "Service",
+                "Key actors",
+                "How they interact",
+                "Fees, and who pays them"
+              ],
+              "rows": [
+                [
+                  "Instant payment",
+                  "Originator PSP, beneficiary PSP, clearing mechanism, settlement service",
+                  "The originator pushes to the CSM, which routes to the beneficiary PSP; acceptance returns inside the SLA",
+                  "Scheme and CSM fees fall on the PSPs. Under the IPR the customer cannot be charged more than for a standard transfer"
+                ],
+                [
+                  "Credit transfer (standard)",
+                  "Originator PSP, beneficiary PSP, clearing mechanism, RTGS",
+                  "The same shape, batched and slower, against a cut-off",
+                  "A per-item CSM fee. Corporates pay a bank tariff; consumers usually pay nothing within SEPA"
+                ],
+                [
+                  "Direct debit",
+                  "Creditor, creditor bank, debtor bank, clearing mechanism",
+                  "The creditor presents through its bank; the debtor bank debits on the due date; refunds travel back the same path",
+                  "The creditor pays a collection fee and carries refund losses. The payer pays nothing — which is the product"
+                ],
+                [
+                  "Card payment",
+                  "Cardholder, issuer, scheme, acquirer, processor, gateway, merchant",
+                  "Merchant to gateway to acquirer to scheme to issuer for authorisation; clearing and settlement retrace the same path in reverse",
+                  "The merchant pays a merchant service charge made of three parts: interchange to the issuer, scheme fees to the scheme, and the acquirer's margin. EU consumer-card interchange is capped at 0.2% on debit and 0.3% on credit; commercial cards are uncapped. In the US, debit is capped for larger issuers under Regulation II and credit is uncapped"
+                ],
+                [
+                  "Request to Pay",
+                  "Payee, payee's RtP provider, payer's RtP provider, payer",
+                  "The request travels provider to provider; the payer's decision returns the same way; no funds move on this leg",
+                  "Provider fees, usually paid by the requesting biller, and typically far below card acceptance cost"
+                ],
+                [
+                  "Wallet / overlay",
+                  "Consumer, wallet provider, underlying issuer or bank, merchant",
+                  "The wallet holds tokenised credentials and performs authentication; the transaction still runs on the rail underneath",
+                  "The merchant pays the underlying rail's cost plus any wallet fee. Wallet providers often take a share of interchange"
+                ],
+                [
+                  "Cross-border (correspondent)",
+                  "Originating bank, one or more correspondents, beneficiary bank, Swift",
+                  "The instruction hops along the chain, each hop screening, charging and potentially delaying",
+                  "The charge code decides who pays: OUR means the originator covers everything, SHA splits it, BEN means the beneficiary absorbs it. The FX spread is usually the largest component and is frequently invisible"
+                ],
+                [
+                  "Stablecoin transfer",
+                  "Sender, issuer, custodian or wallet provider, receiver, on- and off-ramps",
+                  "The sender transfers on-chain; value is redeemable against the issuer's reserves",
+                  "A network fee plus the on- and off-ramp spread. The issuer earns on reserve interest rather than on the transfer itself"
+                ]
+              ]
+            },
+            {
+              "t": "gloss",
+              "v": [
+                {
+                  "term": "Issuer",
+                  "def": "The bank that gives the payer their instrument — a card or an account — and carries the credit and fraud loss on it."
+                },
+                {
+                  "term": "Acquirer",
+                  "def": "The bank that contracts with the merchant, receives its card transactions, and carries merchant default and chargeback risk."
+                },
+                {
+                  "term": "Scheme",
+                  "def": "Sets the rulebook, the brand and the interchange. Moves no money itself — a point worth making when someone calls Visa a payment processor."
+                },
+                {
+                  "term": "Processor",
+                  "def": "Performs the technical processing on behalf of issuers or acquirers. A large share of the industry's actual transaction volume runs here, invisibly."
+                },
+                {
+                  "term": "Gateway",
+                  "def": "The merchant's connection point to the rails — secures, tokenises and routes. Clears nothing and settles nothing."
+                },
+                {
+                  "term": "PISP",
+                  "def": "Payment Initiation Service Provider. Licensed under PSD2/PSD3 to initiate a payment directly from the payer's bank account with their consent, bypassing the card rails entirely. This is the licence that makes account-to-account commerce possible."
+                },
+                {
+                  "term": "AISP",
+                  "def": "Account Information Service Provider. Reads account data on consent; initiates nothing."
+                },
+                {
+                  "term": "Originator PSP / Beneficiary PSP",
+                  "def": "The sending and receiving institutions in a credit transfer. Scheme rulebooks use these terms, not \"sender's bank\"."
+                },
+                {
+                  "term": "Creditor bank / Debtor bank",
+                  "def": "The direct-debit equivalents: the creditor's collecting bank and the payer's paying bank."
+                },
+                {
+                  "term": "Correspondent",
+                  "def": "A bank that holds an account for another bank, giving it reach into a currency or country it cannot access directly."
+                },
+                {
+                  "term": "CSM",
+                  "def": "Clearing and Settlement Mechanism. Exchanges instructions between participants and calculates what each one owes."
+                },
+                {
+                  "term": "PayFac",
+                  "def": "Payment facilitator. Aggregates many sub-merchants under its own acquiring relationship, taking on their onboarding and fraud risk."
+                },
+                {
+                  "term": "Merchant of record",
+                  "def": "The legal seller of the goods, carrying tax, compliance and chargeback liability. Distinct from whoever processes the payment, and routinely confused with it."
+                }
+              ]
+            },
+            {
+              "t": "h",
+              "v": "Table 3 — How each service shows up by market"
+            },
+            {
+              "t": "table",
+              "head": [
+                "Service",
+                "United Kingdom",
+                "Euro area / EMEA",
+                "United States"
+              ],
+              "rows": [
+                [
+                  "Instant payment",
+                  "Faster Payments — seconds, £1 m scheme cap, banks set lower limits",
+                  "SCT Inst over TIPS or RT1, mandatory for euro PSPs under the IPR",
+                  "FedNow and RTP, both voluntary — no regulatory mandate to offer either"
+                ],
+                [
+                  "Credit transfer (standard)",
+                  "Bacs at three working days; CHAPS for high value, same day",
+                  "SCT via STEP2; T2 for high value",
+                  "ACH credit with same-day windows; Fedwire and CHIPS for high value"
+                ],
+                [
+                  "Direct debit",
+                  "Bacs Direct Debit, backed by the Direct Debit Guarantee",
+                  "SDD Core with an 8-week refund right, and SDD B2B with none",
+                  "ACH debit under Nacha rules, with Regulation E consumer protections"
+                ],
+                [
+                  "Card payment",
+                  "Visa and Mastercard dominant; interchange capped under retained domestic rules",
+                  "Visa, Mastercard and domestic schemes; IFR caps of 0.2% and 0.3% on consumer cards",
+                  "Visa, Mastercard, American Express, Discover; Regulation II caps debit only"
+                ],
+                [
+                  "Request to Pay",
+                  "Pay.UK Request to Pay, plus Variable Recurring Payments through open banking",
+                  "SEPA Request-to-Pay — voluntary, and adoption has been slow",
+                  "No direct equivalent scheme; Request for Payment exists on the RTP network"
+                ],
+                [
+                  "Wallet / overlay",
+                  "Apple Pay, Google Pay, PayPal; open-banking A2A growing fast",
+                  "Strongly national — Wero, iDEAL, Bizum, Blik, Swish",
+                  "PayPal, Apple Pay, Google Pay, Zelle, Cash App, Venmo"
+                ],
+                [
+                  "Cross-border (correspondent)",
+                  "Swift correspondent banking; deep remittance corridors",
+                  "Swift, plus SEPA One-Leg-Out variants and TIPS cross-currency work",
+                  "Swift correspondent banking; among the largest remittance outflows globally"
+                ],
+                [
+                  "Stablecoin transfer",
+                  "FCA regime still developing",
+                  "MiCA in force",
+                  "GENIUS Act in force, with bank participation growing"
+                ]
+              ]
+            },
+            {
+              "t": "callout",
+              "title": "How to use this matrix",
+              "v": "Read one row down all five tables and you have a complete service: what happens at each lifecycle stage, what it runs on and how fast, who is involved and who pays, and what it is called in each market. Read one <em>column</em> across the rows instead and you get something different and equally useful — every service's settlement model side by side, or every service's regulatory load. The rows are for learning a service; the columns are for spotting the pattern."
+            },
+            {
+              "t": "note",
+              "v": "Where each thread goes deeper: settlement mechanics and the netting-versus-instant trade-off in module 02, the rails market by market in 03, business models and institutions in 04, the regulatory clock in 05. If a cell in these tables raises a question you cannot answer, that is the module to go to."
+            }
+          ],
+          "resources": [
+            {
+              "tag": "Rulebook",
+              "title": "European Payments Council scheme rulebooks",
+              "url": "https://www.europeanpaymentscouncil.eu/",
+              "note": "The source of truth for four of the rows above — SCT, SCT Inst, SDD and SRTP. Read one rulebook's timing and R-transaction sections and the whole table starts to feel concrete."
+            },
+            {
+              "tag": "Regulator",
+              "title": "ECB — TARGET services",
+              "url": "https://www.ecb.europa.eu/paym/target/html/index.en.html",
+              "note": "T2 and TIPS from the operator. The clearest demonstration that a settlement service and a payment service are different things."
+            },
+            {
+              "tag": "Operator",
+              "title": "RT1 — EBA CLEARING",
+              "url": "https://www.ebaclearing.eu/services-instant-payments/rt1/",
+              "note": "A clearing mechanism describing itself. Read it alongside the TIPS page to see where the two overlap and where they do not."
+            },
+            {
+              "tag": "Spec",
+              "title": "FedNow — understanding the payment timeout clock",
+              "url": "https://explore.fednow.org/resources/readiness-guide-understanding-the-payment-timeout-clock.pdf",
+              "note": "Federal Reserve, PDF. The most concrete SLA document in the course — worth reading once properly to see what an SLA really specifies."
+            },
+            {
+              "tag": "Primer",
+              "title": "The payment industry ecosystem explained",
+              "url": "https://stripe.com/resources/more/the-payment-industry-ecosystem-explained",
+              "note": "Stripe. The actor map from the acceptance side, which fills in the card row of Table 2 in more detail than a bank-centric source will."
+            },
+            {
+              "tag": "Primer",
+              "title": "How Faster Payments in the UK works",
+              "url": "https://stripe.com/resources/more/faster-payments",
+              "note": "The UK column of Table 3, properly explained — Faster Payments against CHAPS and Bacs."
+            }
+          ],
+          "check": [
+            "Explain to someone the difference between a payment service, a scheme, a clearing mechanism and a settlement mechanism, using instant payments and RTGS as the example.",
+            "Take one service and narrate it across all four lifecycle stages from memory, without looking at the table.",
+            "For a card payment, name every actor and say who pays whom — then do the same for an account-to-account payment and explain what the PISP replaced.",
+            "Say why Request to Pay has no settlement row, and why a wallet has no SLA of its own.",
+            "Pick a service and give its UK, euro-area and US implementation, with the scheme name for each."
+          ]
         }
       ]
     },
