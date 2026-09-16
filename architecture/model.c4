@@ -76,7 +76,7 @@ model {
   web -> fonts 'loads webfonts from'
   web -> resources 'links out to (86 URLs)'
   pages -> web 'serves as static files'
-  ci -> web 'builds (next build, output: export) and deploys to' { #planned }
+  ci -> web 'builds (next build, output: export) and deploys to'
   ci -> db 'reads content from, on schedule' { #planned }
   ci -> backup 'writes' { #planned }
 }
@@ -107,5 +107,16 @@ views {
   view target {
     title 'Payments Academy — Target (post-roadmap constitution)'
     include * where tag is not #prototype
+  }
+
+  view phase2 {
+    title 'Payments Academy — Phase 2 (Next.js migration)'
+    include reader, pages, fonts, resources
+    include academy.web, ci
+    include reader -> academy.web
+    include academy.web -> fonts
+    include academy.web -> resources
+    include pages -> academy.web
+    include ci -> academy.web
   }
 }

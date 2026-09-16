@@ -31,7 +31,7 @@ requires, without coupling it to a larger rewrite.
 
 ---
 
-## Phase 2 — Next.js + Tailwind Migration
+## Phase 2 — Next.js + Tailwind Migration (Complete - 2026-09-16)
 
 Rebuilds the shell on the chosen framework, preserving every prototype behavior, before any
 backend changes land. Content stays static data during this phase (ported from `course.js`,
@@ -39,33 +39,33 @@ now typed) — Supabase comes in Phase 3.
 
 ### 2.1 Scaffold
 
-- [ ] Next.js App Router project, TypeScript strict, `output: 'export'`, `basePath` set for
+- [x] Next.js App Router project, TypeScript strict, `output: 'export'`, `basePath` set for
       the GitHub Pages project subpath, `images.unoptimized: true`
-- [ ] Tailwind CSS v4 wired in; port theme tokens (light/dark/auto, NFR-04) from
+- [x] Tailwind CSS v4 wired in; port theme tokens (light/dark/auto, NFR-04) from
       `style.css`
 
 ### 2.2 Port the shell
 
-- [ ] Topbar, contents rail, progress gauge, theme toggle as components
-- [ ] Real per-route static pages replacing hash routing (`/module/unit/`), preserving
+- [x] Topbar, contents rail, progress gauge, theme toggle as components
+- [x] Real per-route static pages replacing hash routing (`/module/unit/`), preserving
       shareable, reload-safe deep links (R-18) — now via Next's own static routes instead
       of a hash-routing workaround
 
 ### 2.3 Port content rendering
 
-- [ ] Block-type dispatch as a component (prose, table, callout, statistic tiles, Q&A,
+- [x] Block-type dispatch as a component (prose, table, callout, statistic tiles, Q&A,
       timeline, glossary)
-- [ ] Course content typed against the Phase 1 schema (ported to Zod or equivalent)
+- [x] Course content typed against the Phase 1 schema (ported to Zod or equivalent)
 
 ### 2.4 Port progress tracking
 
-- [ ] Completion state, per-module counts, whole-course gauge, resume-at-first-incomplete
+- [x] Completion state, per-module counts, whole-course gauge, resume-at-first-incomplete
       (R-14) — still backed by `localStorage` at this phase
-- [ ] Reset-all-progress action (R-08)
+- [x] Reset-all-progress action (R-08)
 
 ### 2.5 Deploy pipeline
 
-- [ ] GitHub Actions workflow: build, static export, deploy to Pages on push to `main`,
+- [x] GitHub Actions workflow: build, static export, deploy to Pages on push to `main`,
       replacing the manual upload
 
 ---

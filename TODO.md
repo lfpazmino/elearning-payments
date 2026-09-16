@@ -4,21 +4,15 @@
 
 ### Now
 
-Phase 1 (Schema & Content Validation) is done and audited (2026-09-16, see below), and the two
-gaps the audit surfaced are now closed (2026-09-16, `specs/2026-09-16-schema-content-validation/`)
-— `schema.js` rejects an empty `check` array, and both `README.md` and `prototype/README.md`
-document `node scripts/validate-course.js` as a required pre-deploy step.
+Phase 1 (Schema & Content Validation) is complete, and Phase 2 (Next.js + Tailwind Migration) is
+implemented and validated: the Next.js static export builds (home, library, 36 unit pages, 404),
+the Vitest suite passes (17 tests over the block renderer, course helpers and Zod schema), and the
+GitHub Actions pipeline builds and deploys to `lfpazmino.github.io/elearning-payments/` on push to
+`main`. Spec: `specs/2026-09-16-nextjs-tailwind-migration/`.
 
-Phase 2 (Next.js + Tailwind Migration) is specced (`specs/2026-09-16-nextjs-tailwind-migration/`)
-and reviewed for consistency against the rest of the constitution; the framework decision it
-depends on is now confirmed (see the updated `React NextJS, TailwindCSS` row in README.md's
-Decisions table). Implementation has not started yet — no `package.json`, no `next.config`, no
-`.github/workflows` exist at the repo root.
-
-Note on process: the spec folder for this closure was originally written (commit `1b50bca`)
-before the code and doc changes it describes were actually made — `plan.md`'s Task Groups 1 and 2
-were implemented afterward, in a separate pass, to bring the code in line with what the spec
-already claimed as done.
+The next phase is **Phase 3 (Supabase Persistence)** — move content, progress and notes to Supabase
+and build the per-unit notes editor (R-19). Picking it up is a deliberate call; it depends on the
+four `[inferred]`/un-decided items it touches (NFR-07, NFR-08, NFR-09, and the notes persistence model).
 
 ### Phase 1 audit (2026-09-16)
 
