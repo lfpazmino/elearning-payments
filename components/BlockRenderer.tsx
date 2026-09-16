@@ -47,25 +47,42 @@ function BlockView({ block }: { block: Block }) {
       );
     case "table":
       return (
-        <div className="tscroll">
-          <table>
-            <thead>
-              <tr>
-                {block.head.map((h, i) => (
-                  <th key={i} dangerouslySetInnerHTML={{ __html: h }} />
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {block.rows.map((row, ri) => (
-                <tr key={ri}>
-                  {row.map((c, ci) => (
-                    <td key={ci} dangerouslySetInnerHTML={{ __html: c }} />
+        <div className="tblock">
+          <div className="tscroll">
+            <table>
+              <thead>
+                <tr>
+                  {block.head.map((h, i) => (
+                    <th key={i} dangerouslySetInnerHTML={{ __html: h }} />
                   ))}
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {block.rows.map((row, ri) => (
+                  <tr key={ri}>
+                    {row.map((c, ci) => (
+                      <td key={ci} dangerouslySetInnerHTML={{ __html: c }} />
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div className="tcards">
+            {block.rows.map((row, ri) => (
+              <div className="tcard" key={ri}>
+                <h4 dangerouslySetInnerHTML={{ __html: row[0] }} />
+                <dl>
+                  {row.slice(1).map((c, ci) => (
+                    <div key={ci}>
+                      <dt dangerouslySetInnerHTML={{ __html: block.head[ci + 1] }} />
+                      <dd dangerouslySetInnerHTML={{ __html: c }} />
+                    </div>
+                  ))}
+                </dl>
+              </div>
+            ))}
+          </div>
         </div>
       );
     case "stats":

@@ -179,7 +179,7 @@ img { max-width: 100%; }
 
 /* ---------------- main ---------------- */
 main { padding: 0 0 90px; min-width: 0; }
-.pane { max-width: 900px; margin: 0 auto; padding-inline: 22px; padding-block: 34px 0; }
+.pane { max-width: 1080px; margin: 0 auto; padding-inline: 22px; padding-block: 34px 0; }
 
 .crumb { display: flex; flex-wrap: wrap; gap: 8px; align-items: baseline; margin-bottom: 12px; }
 .crumb .m { font-family: var(--f-mono); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent-ink); }
@@ -192,10 +192,11 @@ main { padding: 0 0 90px; min-width: 0; }
   padding-left: 15px; max-width: var(--read); margin: 0 0 30px;
 }
 
-.body { display: flex; flex-direction: column; gap: 20px; max-width: var(--read); }
-.body h3 { font-size: 19px; font-weight: 700; margin-top: 8px; }
-.body p { margin: 0; }
-.body ul, .body ol { margin: 0; padding-left: 1.2em; display: flex; flex-direction: column; gap: 8px; }
+.body { display: flex; flex-direction: column; gap: 20px; }
+.body h3 { font-size: 19px; font-weight: 700; margin-top: 8px; max-width: var(--read); }
+.body p { margin: 0; max-width: var(--read); }
+.body ul, .body ol { margin: 0; padding-left: 1.2em; display: flex; flex-direction: column; gap: 8px; max-width: var(--read); }
+.body .callout { max-width: var(--read); }
 .body li::marker { color: var(--muted); }
 .body ol li::marker { font-family: var(--f-mono); font-size: .86em; }
 .body code { font-family: var(--f-mono); font-size: .86em; background: var(--accent-wash); color: var(--accent-ink); padding: 1px 5px; border-radius: 2px; }
@@ -206,12 +207,28 @@ main { padding: 0 0 90px; min-width: 0; }
 .callout .ct { font-family: var(--f-display); font-weight: 700; font-size: 15px; color: var(--accent-ink); }
 .callout p { font-size: 16px; margin: 0; }
 
+.tblock { max-width: 100%; }
 .tscroll { overflow-x: auto; border: 1px solid var(--rule); background: var(--surface); max-width: 100%; }
 table { border-collapse: collapse; width: 100%; font-size: 14.5px; min-width: 460px; }
 th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--rule); vertical-align: top; }
 th { font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); font-weight: 600; white-space: nowrap; }
 td:first-child { font-family: var(--f-display); font-weight: 600; }
 tbody tr:last-child td { border-bottom: none; }
+
+/* Below this width a dense table degrades into an unreadable horizontal-scroll
+   strip, so it hands off to a stacked card per row instead — first column
+   becomes the card heading, remaining columns become labelled fields. */
+.tcards { display: none; flex-direction: column; gap: 10px; }
+@media (max-width: 640px) {
+  .tscroll { display: none; }
+  .tcards { display: flex; }
+}
+.tcard { border: 1px solid var(--rule); background: var(--surface); padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; }
+.tcard h4 { font-family: var(--f-display); font-size: 15.5px; font-weight: 700; margin: 0; color: var(--accent-ink); }
+.tcard dl { margin: 0; display: flex; flex-direction: column; gap: 8px; }
+.tcard dl div { display: flex; flex-direction: column; gap: 2px; }
+.tcard dt { font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.tcard dd { margin: 0; font-size: 14.5px; color: var(--ink-2); line-height: 1.45; }
 
 .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(165px, 1fr)); gap: 1px; background: var(--rule-firm); border: 1px solid var(--rule-firm); max-width: 100%; }
 .stat { background: var(--surface); padding: 16px 15px; display: flex; flex-direction: column; gap: 5px; }
