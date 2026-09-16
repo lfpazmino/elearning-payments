@@ -5,9 +5,9 @@ description: "Turn a conversation that produced a working prototype into a spec-
 
 # Spec README
 
-A conversation that ends in a working prototype holds a project's requirements, scattered across dozens of turns and mixed in with throwaway implementation. This skill harvests that conversation into the two files `spec-dev` reads first: a `README.md` written as **requirements**, and a `TODO.md` of what's left.
+A conversation that ends in a working prototype holds a project's requirements, scattered across dozens of turns and mixed in with throwaway implementation. This skill harvests that conversation into the two files `spec-dev` reads first - a `README.md` written as **requirements** and a `TODO.md` of what's left - then publishes them to GitHub with the prototype code.
 
-This is the on-ramp. Output feeds `/spec-dev` Phase 1, which turns `README.md` into `spec.md` and then into roadmap phases.
+This is the on-ramp. Output feeds `/spec-dev` Phase 1, which turns `README.md` into `spec.md`.
 
 ## The one hard distinction
 
@@ -28,10 +28,10 @@ Nothing goes in untagged. An `[inferred]` line that survives the confirmation ro
 ## Hard rules
 
 1. **Never invent a requirement.** If the conversation doesn't establish it, it's an open question, not a requirement.
-2. **Never run git.** Print commands for the user to run.
-3. **Extract prototype code verbatim.** Do not refactor, rename, improve or "clean up" while extracting. The prototype's job is to be an honest record of what was proven to work. Fixes belong in the spec-driven build, not here.
-4. **`AskUserQuestion` before writing to disk** - one round, on the inferred requirements and the scope boundary.
-5. **Requirements get stable IDs** (`R-01`, `NFR-01`). `spec-dev` traces each one into `spec.md`, and traceability breaks without them.
+2. **Extract prototype code verbatim.** Do not refactor, rename, improve or "clean up" while extracting. The prototype's job is to be an honest record of what was proven to work. Fixes belong in the spec-driven build, not here.
+3. **`AskUserQuestion` before writing to disk** - one round, on the inferred requirements and the scope boundary.
+4. **Requirements get stable IDs** (`R-01`, `NFR-01`). `spec-dev` traces each one into `spec.md`, and traceability breaks without them.
+5. **Git exception.** Unlike `spec-dev` and `feature-spec`, which only ever *propose* git commands, this skill runs git and pushes - but only to seed a baseline: a new repo, or a branch-and-PR on an existing one. It never pushes to the default branch of a repo that already has commits, and never force-pushes. Seeding a fresh repo is not the same risk as merging into an established one; do not carry this exception into the other skills.
 
 ---
 
@@ -73,6 +73,14 @@ Write the generated code into `prototype/`, preserving file structure. Add `prot
 - what must **not** carry forward into the real build
 
 This directory is evidence, not a foundation. Say so in the file.
+
+### Secret scan - blocking
+
+Before anything is committed, scan every extracted file for credentials: API keys, bearer tokens, connection strings with passwords, private keys, `.env` contents, cloud access keys, webhook URLs. Chat prototypes are full of them because nothing was ever meant to leave the conversation.
+
+If you find one, **stop**. Name the file and line, replace the value with a placeholder, add the variable name to `.env.example`, and tell the user what you removed. Never commit a secret and never push "just this once" - a push to GitHub is effectively permanent even from a private repo.
+
+Write a `.gitignore` covering `.env`, credential files, and the language's build and dependency directories.
 
 ## Step 4 - Confirm (mandatory)
 
@@ -145,45 +153,117 @@ Run it: `{command}`
 
 ## Next step
 
-Build this with `/spec-dev` in **{greenfield | brownfield}** mode. `spec.md` traces every R-xx and NFR-xx above, and the roadmap breaks the work into phases.
+Build this with `/spec-dev` in **{greenfield | brownfield}** mode. `spec.md` traces every R-xx and NFR-xx above.
 ```
 
 Write the requirement lines in testable language - specific enough that each one passes or fails a test. "Fast" is not a requirement; "p95 under 200ms at 1k req/s" is. Where the conversation only produced "fast", make it an open question rather than inventing a number.
 
 ### `TODO.md`
 
-`TODO.md` is the ordering authority for everything downstream - `spec-dev` reads it before `roadmap.md`. Write it in exactly this shape:
-
 ```markdown
-# TODO
+# {Project Name}
 
-## Now
+## TODO
+
+### Now
 
 - {The single most valuable next piece of work}
 
-## Next
+### Next
 
 - {Ordered, each traceable to an R-xx or an open question}
-- Evaluate adjustments or refactoring required
 ```
 
-`## Now` and `## Next` are `##`, not `###`, and the file's only `#` is `TODO` - not the project name. Seed *Now* from the largest gap between what the prototype proves and what the requirements demand, which is usually the thing the prototype faked.
+Seed *Now* from the largest gap between what the prototype proves and what the requirements demand - usually the thing the prototype faked.
 
-Each entry names a unit of work that will become a **phase** once `spec-dev` writes the roadmap. Keep them phase-sized: a shippable, independently reviewable slice.
+---
 
-## Step 6 - Hand off
+## Step 6 - Publish to GitHub
 
-Report: how many requirements, how many still `[inferred]`, how many open questions, and which requirement you consider the riskiest. Then propose:
+### 6a. Resolve the target repo
+
+Ask the user, with `AskUserQuestion`, for the destination: an existing `owner/name`, or a new repo to create. Never guess a repo, and never push to one the user did not name. New repos default to **private** - offer public as an explicit choice, never as a default.
+
+### 6b. Find a credential path
+
+Work down this ladder and stop at the first rung that works. Say which rung you landed on.
+
+**Rung 1 - the user's own machine (preferred).** If a device shell tool (`mcp__remote-devices__device_bash`) is available and a folder is connected, check for existing credentials:
 
 ```bash
-git add README.md TODO.md prototype/
-git commit -m "docs: capture requirements and prototype baseline"
+gh auth status 2>&1; git config --get user.email
 ```
 
-and tell the user to run `/spec-dev` next.
+If `gh` reports an authenticated account, do all the git work there. This is the best path: it uses credentials that already exist, no token ever enters the conversation, and the commit carries the user's real identity. Work inside the connected folder so the user ends up with the repo on their own disk.
+
+**Rung 2 - the cloud workspace with a supplied token.** If there is no linked machine, or `gh` is not authenticated there, install the CLI and use a token the user provides:
+
+```bash
+sudo apt-get install -y gh          # or fetch a current release from cli/cli
+export GH_TOKEN="<token>"
+gh auth status
+```
+
+Pass the token via environment variable only. Never write it into a file, a remote URL, or `.git/config`, and never echo it back.
+
+**Rung 3 - request access.** If neither rung works, stop and ask for exactly what is needed. A vague ask gets an over-scoped token, so name the permissions:
+
+> To push this I need a **fine-grained personal access token** scoped to just this one repository:
+>
+> - **Contents:** Read and write - commit the files
+> - **Metadata:** Read - mandatory on every fine-grained token
+> - **Pull requests:** Read and write - only if pushing to an existing repo, to open the PR
+> - **Administration:** Read and write - only if I need to create the repo
+>
+> Set the shortest expiry that covers this session, and revoke it afterwards at
+> github.com/settings/personal-access-tokens.
+>
+> Alternative with no token at all: connect the project folder in the Claude desktop app and
+> run `gh auth login` on your machine - I'll use those credentials instead.
+
+If the user declines, or the token lacks the scope, do not improvise another route. Report what is blocked, leave the files on disk, and print the commands for them to run by hand.
+
+### 6c. Push
+
+Show the exact file list and the commit message, and get confirmation before the first push. Then branch by repo state:
+
+**New repo:**
+
+```bash
+gh repo create <owner>/<name> --private --source=. --remote=origin
+git add README.md TODO.md prototype/ .gitignore
+git commit -m "docs: capture requirements and prototype baseline"
+git push -u origin main
+```
+
+**Existing repo, no commits:** add the remote and push to the default branch as above.
+
+**Existing repo with commits:** never touch the default branch.
+
+```bash
+git checkout -b spec-readme/baseline
+git add README.md TODO.md prototype/ .gitignore
+git commit -m "docs: capture requirements and prototype baseline"
+git push -u origin spec-readme/baseline
+gh pr create --title "Requirements and prototype baseline" --body "..."
+```
+
+The PR body summarises what was harvested: requirement count, how many are still `[inferred]`, the open questions, and what the prototype does and does not prove. If a `README.md` already exists in that repo, do not overwrite it - write `README.spec.md` alongside it and say so in the PR.
+
+**Never:** force-push, push to a repo the user did not name, rewrite history, or commit anything the secret scan flagged.
+
+### 6d. Report
+
+Give the repo or PR URL, say which credential rung was used, and - if a token was supplied - remind the user to revoke it now.
+
+---
+
+## Step 7 - Hand off
+
+Report: how many requirements, how many still `[inferred]`, how many open questions, and which requirement you consider the riskiest. Tell the user to run `/spec-dev` next, in the mode settled at Step 4.
 
 ## What good output looks like
 
-Someone who was never in the conversation can read `README.md` and know what to build, what was already decided and why, what not to build, and what still needs answering - without reading a single line of prototype code.
+Someone who was never in the conversation can clone the repo, read `README.md`, and know what to build, what was already decided and why, what not to build, and what still needs answering - without reading a single line of prototype code.
 
 If the README only makes sense to someone who saw the chat, it isn't done.
