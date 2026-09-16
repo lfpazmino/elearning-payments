@@ -22,6 +22,18 @@ some browsers restrict `localStorage` on that scheme, so progress may not save.
 
 ## Before every deploy
 
+The content file is schema-validated before it ships. From the repository root, run:
+
+```bash
+node scripts/validate-course.js
+```
+
+It must pass — exit code `0`, printing `Content valid — 36 units across 11 modules, 86 resources.` —
+before you deploy any change. CI enforcement of this check is deferred to Phase 2, so for now this
+is a manual, must-run step.
+
+## Before every deploy
+
 Run the pre-deploy content check and confirm it exits `0`:
 
 ```bash
@@ -55,8 +67,9 @@ Each of these is a specific claim that was tested, not an aspiration:
 
 Do not carry any of this forward without a decision:
 
-- **No validation of the content data.** A mistyped block type renders nothing; a missing
-  `objective` throws. There is no author-time signal and no deploy gate.
+- **Validation is not enforced in CI.** `schema.js` checks content shape, `validate-load.js`
+  surfaces violations at load time, and `scripts/validate-course.js` is a deploy gate — but
+  enforcement is manual (see "Before every deploy" above) until Phase 2 wires it into GitHub Actions.
 - **No tests.** Verification to date has been ad-hoc headless-browser runs, not a suite.
 - **Module numbers are hardcoded in the data** (`n: "02"`) rather than derived from array order.
   They already drifted once when two modules were inserted mid-course.

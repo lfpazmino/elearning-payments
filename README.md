@@ -116,7 +116,6 @@ It proves:
 
 It is **not** production scaffolding. Known gaps:
 
-- No schema validation on the content file — a malformed unit fails silently or throws at runtime
 - No tests of any kind
 - No accessibility audit; focus is not managed on route change
 - Storage failures are caught but never surfaced to the reader
