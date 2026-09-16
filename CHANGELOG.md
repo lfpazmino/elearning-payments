@@ -15,6 +15,14 @@
   `prebuild` validation gate (`scripts/validate-content.ts`), a Vitest + React Testing Library suite
   (17 tests), and a GitHub Actions deploy-to-Pages workflow.
 
+- **Phase 2 signed off** (`specs/2026-09-16-nextjs-tailwind-migration/signoff.md`). Build, the
+  content-validation gate (including a live break-test) and the Vitest suite re-run and passed;
+  Tailwind v4 and Next.js static-export usage checked against current docs via context7 with no
+  findings. Fixed a stale `#planned` tag on the `ci` (GitHub Actions) element in
+  `architecture/model.c4`, since the deploy pipeline is live. Created `specs/feature-phase-map.md`
+  to track feature-to-phase status; Phase 2 lands its five owned features at 100%, project-wide 5/7
+  (71%).
+
 ## 2026-09-15
 
 - Constitution generated: `specs/mission.md`, `specs/tech-stack.md`, `specs/roadmap.md`, and the

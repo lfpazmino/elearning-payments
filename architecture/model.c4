@@ -52,7 +52,6 @@ model {
   }
 
   ci = system 'GitHub Actions' {
-    #planned
     description 'Builds and deploys the static export to Pages; runs the scheduled Supabase-to-JSON backup export.'
   }
 

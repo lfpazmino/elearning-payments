@@ -4,11 +4,12 @@
 
 ### Now
 
-Phase 1 (Schema & Content Validation) is complete, and Phase 2 (Next.js + Tailwind Migration) is
-implemented and validated: the Next.js static export builds (home, library, 36 unit pages, 404),
-the Vitest suite passes (17 tests over the block renderer, course helpers and Zod schema), and the
-GitHub Actions pipeline builds and deploys to `lfpazmino.github.io/elearning-payments/` on push to
-`main`. Spec: `specs/2026-09-16-nextjs-tailwind-migration/`.
+Phase 1 (Schema & Content Validation) and Phase 2 (Next.js + Tailwind Migration) are both complete
+and signed off. Phase 2's signoff (`specs/2026-09-16-nextjs-tailwind-migration/signoff.md`)
+re-ran the real build, the build-fails-on-violation gate, and the Vitest suite live; all passed
+(5/5 features at 100% for this phase). Its one caveat: deep-link/theme/progress UI behavior and
+the actual CI deploy were verified by reading the code, not by an interactive browser session or
+an observed `main` push — see that signoff's Test Results and Follow-Ups.
 
 The next phase is **Phase 3 (Supabase Persistence)** — move content, progress and notes to Supabase
 and build the per-unit notes editor (R-19). Picking it up is a deliberate call; it depends on the
@@ -47,8 +48,37 @@ Verified against `specs/roadmap.md` 1.1–1.3 by reading `schema.js`, `validate-
   this — it reads as intentional, since all three are module 10 rehearsal/closing units rather
   than standard content units.
 
+### Phase 2 signoff (2026-09-16)
+
+Verified against `specs/2026-09-16-nextjs-tailwind-migration/{requirements,plan,validation}.md`
+by running the real build, test suite and a live break-test of the content-validation gate. Full
+detail in `specs/2026-09-16-nextjs-tailwind-migration/signoff.md`; `specs/feature-phase-map.md`
+created to track feature-to-phase status going forward.
+
+- All five plan task groups shipped as planned; one undocumented-but-sound deviation found and
+  recorded (`output: 'export'` scoped to production only in `next.config.mjs`, to suppress a dev-mode
+  warning while `redirects()` still points the dev root at the basePath).
+- `npm run build`, the `prebuild` content gate, and `npm test` (17/17) all re-run live and passed.
+  The build-fails-on-violation behavior was verified by actually breaking a unit's `check` array
+  and observing the non-zero exit, not assumed from the code.
+- **Architecture drift fixed:** `architecture/model.c4` still tagged the `ci` (GitHub Actions)
+  system `#planned` even though its `ci -> web` relationship had already lost that tag and the
+  pipeline is live. Removed the stale tag; `npx likec4 validate` confirms the model is still valid.
+- Tailwind v4 and Next.js `output: 'export'`/`basePath` usage checked against current docs via
+  context7 — both match current best practice with no findings.
+
 ### Next
 
+- **`@tailwindcss/webpack` loader** (Phase 2 signoff follow-up). Context7-confirmed ~2x faster
+  builds than `@tailwindcss/postcss` under Turbopack, which this project already runs. Small,
+  isolated, low-risk — not a content-phase task.
+- **Live-browser validation pass** (Phase 2 signoff follow-up). `validation.md` steps 2–5 and 7
+  (rendered output, deep-link reload, theme toggle, progress UI, and an actual `main` push/deploy)
+  were verified structurally in the signoff, not by observing them run. Worth a manual pass before
+  or shortly after this branch merges.
+- **Add a standalone `lint`/`typecheck` script** (Phase 2 signoff follow-up). Type-checking
+  currently only runs inside `next build`; a separate script would let CI or a pre-commit hook fail
+  faster and independently of a full build.
 - **Design and implement the notes + persistence layer** (R-19, NFR-07, NFR-08, NFR-09; Decisions
   table rows "Progress in database storage" and "Course content stored in a database", both marked
   *Revisit at spec time*). This is unimplemented, not just unpolished — the prototype proves none of
