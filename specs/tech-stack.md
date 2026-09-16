@@ -14,7 +14,7 @@ verified against current docs via `context7` on 2026-09-15, not recalled from tr
 | Layer | Choice | Rationale |
 | --- | --- | --- |
 | Framework | React 19 (via Next.js) | Matches NFR-02 as stated by the stakeholder. Component structure is what makes the notes editor and per-unit Supabase calls tractable — the prototype's single 541-line `app.js` doing routing, rendering and storage together was already at the edge of what hand-rolled DOM code should carry. |
-| Meta-framework | Next.js, App Router, `output: 'export'` | Verified via context7 (`/vercel/next.js`): `output: 'export'` produces a fully static site with no server runtime, satisfying NFR-01. Each route exports as a real static HTML file, which means deep links (R-18) no longer need hash routing — a GitHub Pages technical constraint that static export removes outright. Requires `basePath` set to `/payments-academy` (project Pages subpath) and `images.unoptimized: true` since there is no image server. |
+| Meta-framework | Next.js, App Router, `output: 'export'` | Verified via context7 (`/vercel/next.js`): `output: 'export'` produces a fully static site with no server runtime, satisfying NFR-01. Each route exports as a real static HTML file, which means deep links (R-18) no longer need hash routing — a GitHub Pages technical constraint that static export removes outright. Requires `basePath` set to `/elearning-payments` (this repo's Pages subpath) and `images.unoptimized: true` since there is no image server. |
 | Language | TypeScript, strict mode | Course content becomes typed data (module/unit/block/resource shapes) instead of validated-at-runtime-only JS objects — the schema validation TODO item and the framework migration reinforce each other. |
 | Styling | Tailwind CSS v4 | Matches NFR-02 as stated. Utility classes replace the prototype's single 318-line `style.css`; theme tokens (light/dark, NFR-04) map to Tailwind's CSS-variable theming. |
 | Components | Local components, no external UI kit | The design (topbar, rail, gauge, block renderer, notes editor) is specific enough that a generic kit would fight it more than help. Revisit only if a real component need (e.g. a rich-text base) argues for one. |
@@ -43,9 +43,9 @@ verified against current docs via `context7` on 2026-09-15, not recalled from tr
 
 | Layer | Choice | Rationale |
 | --- | --- | --- |
-| Content validation | Zod schema checks in CI, failing the build on violation | Matches NFR-06 exactly: "validated before deploy." |
-| Link checking | A CI job over the 86 resource URLs (R-10) | Currently manual; TODO.md records one link that already 404'd and was caught by hand. Does not scale further without automation. |
-| Unit/integration tests | Deferred until there is non-trivial logic to protect (block renderer, progress calculation, notes save/paste) | The prototype has none; the migration is the point at which adding them becomes worthwhile, since there's finally a framework with a real test story (Vitest + React Testing Library). Not committed to a specific tool yet — pick one when Phase 2 lands. |
+| Content validation | Zod schema checks that fail `next build` on violation, ported from the Phase 1 schema (`schema.js`) and run against the typed content module | Matches NFR-06 exactly: "validated before deploy." Confirmed in Phase 2 (`specs/2026-09-16-nextjs-tailwind-migration/`) as an explicit build-time gate, not left to TypeScript type-checking alone — closes the gap Phase 1's spec deferred here. |
+| Link checking | A CI job over the 86 resource URLs (R-10) | Currently manual; TODO.md records one link that already 404'd and was caught by hand. Does not scale further without automation. Deferred to Phase 5 (`specs/roadmap.md` 5.2). |
+| Unit/integration tests | Vitest + React Testing Library, covering the block renderer and progress calculation | The prototype has none; the migration is the point at which adding them becomes worthwhile, since there's finally a framework with a real test story. Tool choice confirmed in Phase 2 (`specs/2026-09-16-nextjs-tailwind-migration/`). |
 
 ## What We Are NOT Using
 

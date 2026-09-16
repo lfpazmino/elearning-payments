@@ -7,10 +7,13 @@
 Phase 1 (Schema & Content Validation) is done and audited (2026-09-16, see below), and the two
 gaps the audit surfaced are now closed (2026-09-16, `specs/2026-09-16-schema-content-validation/`)
 — `schema.js` rejects an empty `check` array, and both `README.md` and `prototype/README.md`
-document `node scripts/validate-course.js` as a required pre-deploy step. Nothing is queued in
-*Now* until the next priority is picked — "Design and implement the notes + persistence layer"
-and "Decide the framework/build-step question" below already flag themselves as candidates; that
-promotion is a deliberate call, not made here.
+document `node scripts/validate-course.js` as a required pre-deploy step.
+
+Phase 2 (Next.js + Tailwind Migration) is specced (`specs/2026-09-16-nextjs-tailwind-migration/`)
+and reviewed for consistency against the rest of the constitution; the framework decision it
+depends on is now confirmed (see the updated `React NextJS, TailwindCSS` row in README.md's
+Decisions table). Implementation has not started yet — no `package.json`, no `next.config`, no
+`.github/workflows` exist at the repo root.
 
 Note on process: the spec folder for this closure was originally written (commit `1b50bca`)
 before the code and doc changes it describes were actually made — `plan.md`'s Task Groups 1 and 2
@@ -67,9 +70,6 @@ Verified against `specs/roadmap.md` 1.1–1.3 by reading `schema.js`, `validate-
   (payload ≤200 KB uncompressed), restored as a numbered row — it had been dropped from the table
   and left as a dangling reference in the inferred-count paragraph and the Open Questions section;
   both are now fixed to point at it correctly.
-- **Decide the framework/build-step question** (Decisions, marked *Revisit*). It was never actually
-  decided — it happened. It constrains everything downstream, so it should be a decision with a
-  recorded reason, whichever way it goes.
 - **Link checking in CI** (R-10). Eighty-six external links, all required to be free and reachable.
   One already 404'd and was caught by hand. This does not scale without automation.
 - **Content freshness mechanism** (open question). The syllabus is full of dated regulatory facts

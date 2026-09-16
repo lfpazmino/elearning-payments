@@ -4,7 +4,7 @@ Phases are ordered per `TODO.md`'s *Now*/*Next* priority, not invented from scra
 phase is a shippable, independently reviewable slice. See `mission.md` for what success
 looks like and `tech-stack.md` for the choices each phase draws on.
 
-## Phase 1 — Schema & Content Validation (current stack)
+## Phase 1 — Schema & Content Validation (Complete - 2026-09-16)
 
 Ships on the prototype as it stands today (static HTML/vanilla JS). No framework migration
 yet — this closes the single widest gap between what the prototype proves and what NFR-06

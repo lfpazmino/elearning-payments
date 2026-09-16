@@ -84,8 +84,8 @@ Confirmed with the stakeholder, not assumed:
 | Deploy to GitHub Pages from a public repo | Stakeholder chose GitHub over artifact hosting; public because Pages on a private repo requires a paid plan | Firm |
 | Progress in database storage | Keeps the progress and unit notes stored in a database | **Revisit at spec time** — never explicitly decided |
 | Course content stored in a database | Generated/researched eLearning content should be stored in a database | **Revisit at spec time** — never explicitly decided |
-| Hash-based routing | GitHub Pages cannot rewrite paths for a single-page app | Firm — technical necessity |
-| React NextJS, TailwindCSS as UI frmeworks | Web responsive | **Revisit at spec time** — never explicitly decided |
+| Hash-based routing | GitHub Pages cannot rewrite paths for a single-page app | Superseded — was firm for the prototype's vanilla JS, but Next.js `output: 'export'` produces real static routes per page, so Phase 2 replaces it outright (`specs/2026-09-16-nextjs-tailwind-migration/`) |
+| React NextJS, TailwindCSS as UI frameworks | Web responsive | Firm — confirmed at Phase 2 spec time (`specs/2026-09-16-nextjs-tailwind-migration/requirements.md`) |
 | Two-level hierarchy, module → unit | Mirrors the shape of the source study plan | Revisit |
 | Archivo / Source Serif 4 / IBM Plex Mono via Google Fonts | Design choice, never discussed. Use tailwindCSS best practice for ealearning websites | Revisit |
 | Resource source-types grouped into four families for filtering | 21 raw tags produced an unreadable two-row filter | Revisit |
