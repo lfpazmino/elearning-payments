@@ -127,6 +127,10 @@ It is **not** production scaffolding. Known gaps:
 
 Run it: `cd prototype && python3 -m http.server 8000`, then open `http://localhost:8000`.
 
+**Before every deploy**, run `node scripts/validate-course.js` and confirm it exits `0` — see
+`prototype/README.md` for what it checks. This is a manual step for now; CI enforcement is
+deferred to Phase 2 (`specs/tech-stack.md`).
+
 ## Open questions
 
 - Should the elearning content be stored in the database?

@@ -4,21 +4,18 @@
 
 ### Now
 
-Phase 1 (Schema & Content Validation) is done and audited (2026-09-16, see below). Nothing is
-queued in *Now* until the next priority is picked — "Design and implement the notes +
-persistence layer" and "Decide the framework/build-step question" below already flag
-themselves as candidates; that promotion is a deliberate call, not made here.
+Phase 1 (Schema & Content Validation) is done and audited (2026-09-16, see below), and the two
+gaps the audit surfaced are now closed (2026-09-16, `specs/2026-09-16-schema-content-validation/`)
+— `schema.js` rejects an empty `check` array, and both `README.md` and `prototype/README.md`
+document `node scripts/validate-course.js` as a required pre-deploy step. Nothing is queued in
+*Now* until the next priority is picked — "Design and implement the notes + persistence layer"
+and "Decide the framework/build-step question" below already flag themselves as candidates; that
+promotion is a deliberate call, not made here.
 
-- **Close two small gaps the Phase 1 audit surfaced (low effort, do first):**
-  - Document `node scripts/validate-course.js` as a required manual step before every deploy
-    (in `README.md` or `prototype/README.md`). The script works and exits non-zero on a schema
-    violation, but nothing currently tells a developer to run it. CI enforcement is deferred by
-    design to Phase 2 (`specs/tech-stack.md`: "Zod schema checks in CI, failing the build on
-    violation") — this covers the manual-deploy gap until then.
-  - Tighten `schema.js` to require a non-empty `check` array per unit. It currently accepts a
-    unit with zero self-checks and would not catch a future regression, even though R-13
-    requires every unit to end with self-check prompts. Not a live bug — all 36 current units
-    have at least one check — but the invariant isn't guarded going forward.
+Note on process: the spec folder for this closure was originally written (commit `1b50bca`)
+before the code and doc changes it describes were actually made — `plan.md`'s Task Groups 1 and 2
+were implemented afterward, in a separate pass, to bring the code in line with what the spec
+already claimed as done.
 
 ### Phase 1 audit (2026-09-16)
 
@@ -36,11 +33,12 @@ Verified against `specs/roadmap.md` 1.1–1.3 by reading `schema.js`, `validate-
   and exits non-zero on failure — confirmed by running it: "Content valid — 36 units across 11
   modules, 86 resources," matching the README's stated baseline exactly.
 - **1.3 Retrofit** — confirmed zero violations; nothing needed retrofitting.
-- **Process gaps found, not code gaps** (see *Now* above for the two worth fixing immediately):
-  - No `specs/YYYY-MM-DD-*/` directory exists for Phase 1 (no `requirements.md`/`plan.md`/
+- **Process gaps found, not code gaps** (see *Now* above — both now closed):
+  - No `specs/YYYY-MM-DD-*/` directory existed for Phase 1 (no `requirements.md`/`plan.md`/
     `validation.md`) — it shipped without this project's own spec-phase workflow, so there was
     no recorded Definition of Done to check against; this audit reconstructed one from the
-    roadmap checklist instead.
+    roadmap checklist instead. `specs/2026-09-16-schema-content-validation/` now exists and the
+    code matches it.
   - No `CHANGELOG.md` exists anywhere in the repo — the spec-phase skill's close-out step calls
     for a dated entry per phase; none was ever created. Worth starting one now rather than
     backfilling Phase 1's history.

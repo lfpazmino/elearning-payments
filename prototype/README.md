@@ -5,7 +5,7 @@ that produced the requirements in [`../README.md`](../README.md), preserved exac
 written — not refactored, renamed or tidied on the way in. Its job is to be an honest record of what
 was proven to work.
 
-It is deployed and in daily use at **https://lfpazmino.github.io/payments-academy/**.
+It is deployed and in daily use at **[https://lfpazmino.github.io/payments-academy/]**.
 
 ## Running it
 
@@ -19,6 +19,19 @@ python3 -m http.server 8000
 
 Any static file server works. Opening `index.html` directly via `file://` also mostly works, but
 some browsers restrict `localStorage` on that scheme, so progress may not save.
+
+## Before every deploy
+
+Run the pre-deploy content check and confirm it exits `0`:
+
+```bash
+node scripts/validate-course.js
+```
+
+It validates `assets/js/course.js` against the schema in `assets/js/schema.js` — same rules the
+browser's load-time check (`validate-load.js`) enforces — and fails with a non-zero exit code and
+a listed error per violation if anything is wrong. This is a manual step; CI enforcement of this
+script is deferred to Phase 2.
 
 ## What it demonstrates
 
@@ -58,7 +71,7 @@ Do not carry any of this forward without a decision:
 
 ## Layout
 
-```
+```bash
 index.html              application shell; the only HTML file
 assets/css/style.css    all styles; theme tokens defined at the top
 assets/js/course.js     all course content as data — the thing that actually matters
