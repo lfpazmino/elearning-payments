@@ -1076,6 +1076,479 @@
           ]
         },
         {
+          "id": "topologies",
+          "title": "Topologies, processing modes and the acronym decoder",
+          "mins": 50,
+          "objective": "Separate the three axes that get conflated — what sits between the endpoints, how instructions are processed, and when money becomes final — and decode the scheme acronyms without guessing.",
+          "blocks": [
+            {
+              "t": "p",
+              "v": "The previous unit gave you one axis and one word for it: account-to-account. That word answers a question about <em>topology</em> — what sits between the payer and the payee. It is a real axis, but it is one of three, and most of the confusion in payments vocabulary comes from sliding between them mid-sentence. Batch, for instance, is not missing from the A2A grid because it was forgotten. It belongs to a different axis entirely."
+            },
+            {
+              "t": "callout",
+              "title": "Three independent axes",
+              "v": "<strong>Topology</strong> — what sits between the endpoints, and who owns the relationship. <strong>Processing mode</strong> — whether instructions travel in files or one at a time. <strong>Settlement timing</strong> — when the money becomes final and who carries risk until then. They are genuinely independent: you can have any combination, and real instruments use most of them. Every time someone asks whether a payment is \"real-time\", ask which axis they mean."
+            },
+            {
+              "t": "h",
+              "v": "Axis 1 — Topology: what sits between the endpoints"
+            },
+            {
+              "t": "table",
+              "head": [
+                "Topology",
+                "Shape",
+                "Examples",
+                "What it implies"
+              ],
+              "rows": [
+                [
+                  "On-us (intrabank)",
+                  "Both accounts at the same institution; no network involved at all",
+                  "Internal transfers between two accounts at the same bank",
+                  "No scheme fees, no settlement risk, instant by construction — and routinely missing from volume forecasts"
+                ],
+                [
+                  "Account-to-account (A2A)",
+                  "Payer's bank → clearing mechanism → payee's bank",
+                  "SEPA Credit Transfer, Faster Payments, FedNow, Pix, UPI",
+                  "No scheme owns the customer relationship, so no interchange — and no chargeback either"
+                ],
+                [
+                  "Four-party (open-loop card)",
+                  "Payer → issuer → scheme → acquirer → payee",
+                  "Visa, Mastercard, and most domestic card schemes",
+                  "Interchange flows towards the issuer; the scheme sets rules and takes fees while holding no money"
+                ],
+                [
+                  "Three-party (closed-loop)",
+                  "One operator is both issuer and acquirer",
+                  "American Express traditionally, Discover, store cards, transit cards, PayPal balance-to-balance",
+                  "No interchange to negotiate — the operator prices the merchant directly. Reach is narrower, margin control is total"
+                ],
+                [
+                  "Chained (correspondent)",
+                  "A series of bilateral account relationships, traversed hop by hop",
+                  "Cross-border correspondent banking",
+                  "Cost and delay scale with chain length, and compliance is repeated at every hop"
+                ],
+                [
+                  "Overlay",
+                  "A presentation layer sitting on one or more of the topologies above",
+                  "Wero, Bizum, Zelle, Apple Pay, PayPal checkout",
+                  "Owns the customer experience, not the money movement. Its economics depend entirely on what runs underneath"
+                ],
+                [
+                  "Distributed ledger (peer-to-peer)",
+                  "Participants transact on a shared ledger with no central operator in the path",
+                  "Stablecoin transfers, tokenised deposits",
+                  "Clearing and settlement collapse into a single event. No scheme rulebook, so governance is the open question"
+                ],
+                [
+                  "Interlinked",
+                  "Two or more domestic systems connected so they behave as one",
+                  "Project Nexus, the PromptPay–PayNow link, TIPS cross-currency work",
+                  "Reach without building a global scheme. The hard parts are FX, liquidity and whose dispute rules apply"
+                ]
+              ]
+            },
+            {
+              "t": "h",
+              "v": "Where A2A came from"
+            },
+            {
+              "t": "p",
+              "v": "Account-to-account is the oldest thing in banking wearing new clothes. European <strong>giro</strong> systems — postal giro from the early twentieth century, then bank giro — were account-to-account credit transfers by design: the payer instructs their bank to credit the payee's account, with no card, no scheme, and no intermediary owning the relationship. The SEPA Credit Transfer is that tradition standardised across a currency union."
+            },
+            {
+              "t": "p",
+              "v": "What is new is the <em>commercial framing</em>. The term \"account-to-account\" comes from the merchant-acceptance world rather than from banking: it was coined to name an alternative to card acceptance. And it only became a real alternative when two things arrived together — open-banking APIs that let a licensed third party initiate a payment straight from the payer's bank account, and instant rails that made the money arrive fast enough for a checkout to complete. Neither the topology nor the rail was new. The combination, plus a licence to use it, was."
+            },
+            {
+              "t": "note",
+              "v": "So when a vendor says \"we do A2A\", ask which of three things they mean: a PISP-initiated open-banking payment, a direct bank API integration, or a plain scheme credit transfer the merchant reconciles themselves. All three are account-to-account. Their economics, their failure modes and their reach are completely different."
+            },
+            {
+              "t": "h",
+              "v": "Where topology is going"
+            },
+            {
+              "t": "ul",
+              "v": [
+                "<strong>Variable Recurring Payments and commercial VRP</strong> — account-to-account with standing authority. This is the piece that has been missing: it closes the gap with direct debit and card-on-file, which is the only reason subscriptions still live on cards.",
+                "<strong>Interlinking</strong> — Project Nexus and bilateral scheme links, giving cross-border reach without anyone building a global scheme.",
+                "<strong>Tokenised deposits on a shared ledger</strong> — Swift's went into live pilot with 17 banks across six continents in July 2026. Banks keep the customer relationship while settlement moves to a shared ledger, which is a genuinely hybrid topology.",
+                "<strong>Retail central bank digital currency</strong> — the digital euro, if it ships, gives the public a direct claim on the central bank.",
+                "<strong>Agentic and delegated authority</strong> — AP2-style mandates introduce a party that is neither payer nor payee but acts for one of them. None of the topologies in the table above has a slot for that, which is exactly why the protocols are being invented rather than extended."
+              ]
+            },
+            {
+              "t": "callout",
+              "title": "The CBDC point worth holding on to",
+              "v": "Every topology in the table above ultimately routes a claim on a <em>commercial</em> bank. A retail CBDC routes a claim on the <em>central</em> bank itself. That is a change of topology, not a change of speed — and it is why the digital euro debate is about disintermediation and holding limits rather than about latency. If you only ever hear CBDC discussed as \"faster payments\", you are hearing it discussed wrongly."
+            },
+            {
+              "t": "h",
+              "v": "Axis 2 — Processing mode: batch or single-message"
+            },
+            {
+              "t": "p",
+              "v": "Batch is not a speed, and it is not a generation of technology. It is a <strong>processing mode</strong>: whether instructions are accumulated into a file and handled as a group, or each one is carried end to end on its own with a response. That is independent of topology and independent of when money becomes final — which is why \"batch versus real-time\" and \"real-time versus instant\" are not the same comparison, and why batch never appeared in the account-to-account grid."
+            },
+            {
+              "t": "table",
+              "head": [
+                "Mode",
+                "How instructions are handled",
+                "Typical latency",
+                "Where you see it",
+                "Why you would choose it"
+              ],
+              "rows": [
+                [
+                  "Batch, cyclical",
+                  "Accumulated into a file, then processed and cleared as a group on a fixed cycle",
+                  "Hours to days",
+                  "Bacs, SEPA Credit Transfer via STEP2, SEPA Direct Debit, classic ACH",
+                  "Lowest cost per item at volume; nets down the liquidity you must actually settle; gives a cancellation window before funds move"
+                ],
+                [
+                  "Batch, windowed",
+                  "The same, but with several cut-offs a day instead of one",
+                  "Hours",
+                  "Same-day ACH, intraday STEP2 cycles",
+                  "Most of the efficiency of batch for a fraction of the delay — and the direction the industry has genuinely taken"
+                ],
+                [
+                  "Single-message (real-time)",
+                  "Each instruction carried end to end on its own, with a response expected",
+                  "Sub-second to seconds",
+                  "Instant schemes, RTGS systems, card authorisation",
+                  "Immediate certainty, at a higher cost per item and with no cancellation window"
+                ],
+                [
+                  "Streaming / continuous",
+                  "Instructions processed as a continuous flow rather than as files or discrete request-response pairs",
+                  "Continuous",
+                  "Modern payment hubs internally; ledger-based systems",
+                  "Decouples ingestion from processing and smooths spikes — an architecture choice more than a scheme one"
+                ]
+              ]
+            },
+            {
+              "t": "callout",
+              "title": "Batch is not legacy",
+              "v": "It is the right answer whenever volume matters and latency does not — payroll, pensions, direct debits, supplier runs. Nobody wants payroll for fifty thousand employees carried as fifty thousand individual real-time messages, and no treasurer wants the intraday liquidity that would demand. The industry trend is <em>more windows</em>, not abolition. Treating batch as something to be eliminated is one of the fastest ways to sound naive in a payments conversation."
+            },
+            {
+              "t": "h",
+              "v": "Axis 3 — Settlement timing"
+            },
+            {
+              "t": "p",
+              "v": "Covered properly in the next unit and in module 02, so briefly: <strong>gross</strong> settlement discharges each obligation individually and finally, usually in central bank money; <strong>net</strong> settlement accumulates obligations and offsets them in cycles, which is far cheaper in liquidity but leaves participants exposed to each other between cycles. This axis decides how much cash you must park and who is at risk while you wait."
+            },
+            {
+              "t": "h",
+              "v": "The three axes together"
+            },
+            {
+              "t": "table",
+              "head": [
+                "Instrument",
+                "Topology",
+                "Processing mode",
+                "Settlement timing",
+                "Availability"
+              ],
+              "rows": [
+                [
+                  "SEPA Instant (SCT Inst)",
+                  "A2A",
+                  "Single-message",
+                  "Gross, immediate, via TIPS or RT1",
+                  "24/7/365"
+                ],
+                [
+                  "SEPA Credit Transfer (SCT)",
+                  "A2A",
+                  "Batch, cyclical",
+                  "Deferred net, via STEP2",
+                  "Business days"
+                ],
+                [
+                  "SEPA Direct Debit (SDD)",
+                  "A2A, pull",
+                  "Batch, cyclical",
+                  "Deferred net; finality stays soft for 8 weeks on Core",
+                  "Business days"
+                ],
+                [
+                  "UK Faster Payments",
+                  "A2A",
+                  "Single-message",
+                  "Deferred net, settled in cycles",
+                  "24/7"
+                ],
+                [
+                  "UK Bacs",
+                  "A2A",
+                  "Batch, three-day cycle",
+                  "Deferred net",
+                  "Business days"
+                ],
+                [
+                  "ACH (US)",
+                  "A2A",
+                  "Batch, windowed",
+                  "Deferred net",
+                  "Business days"
+                ],
+                [
+                  "Fedwire Funds",
+                  "A2A",
+                  "Single-message",
+                  "Gross, immediate",
+                  "Business hours"
+                ],
+                [
+                  "FedNow",
+                  "A2A",
+                  "Single-message",
+                  "Gross, immediate, in master accounts",
+                  "24/7/365"
+                ],
+                [
+                  "Card payment",
+                  "Four-party",
+                  "Real-time authorisation, batch clearing",
+                  "Deferred net via the scheme",
+                  "24/7 authorisation, business-day settlement"
+                ],
+                [
+                  "Amex (closed-loop)",
+                  "Three-party",
+                  "Real-time authorisation, batch clearing",
+                  "Internal to the operator",
+                  "24/7 authorisation"
+                ],
+                [
+                  "Cross-border correspondent",
+                  "Chained",
+                  "Single-message instruction, batch cover",
+                  "Gross, per hop",
+                  "Varies by corridor"
+                ],
+                [
+                  "Stablecoin transfer",
+                  "Distributed ledger",
+                  "Single-message",
+                  "Atomic on-ledger",
+                  "24/7"
+                ]
+              ]
+            },
+            {
+              "t": "callout",
+              "title": "The two rows that teach the most",
+              "v": "<strong>Card payment</strong> is real-time at authorisation, batch at clearing and netted at settlement — so \"is a card payment real-time?\" has three different answers depending on which axis you mean. The promise is instant; the money is not, and that gap is precisely where chargebacks, settlement risk and working-capital cost live. <strong>UK Faster Payments</strong> is the mirror image: single-message processing but deferred net settlement. Instant to the customer, netted underneath. Instant at the service layer does not imply gross at the settlement layer."
+            },
+            {
+              "t": "h",
+              "v": "The acronym decoder"
+            },
+            {
+              "t": "gloss",
+              "v": [
+                {
+                  "term": "SEPA",
+                  "def": "Single Euro Payments Area — the regulatory and scheme space that makes a euro payment between member countries work like a domestic one."
+                },
+                {
+                  "term": "SCT",
+                  "def": "SEPA Credit Transfer. The standard euro push payment: batch, next business day, no amount limit."
+                },
+                {
+                  "term": "SCT Inst",
+                  "def": "SEPA Instant Credit Transfer. The instant variant — ten seconds, 24/7/365, €100,000 scheme cap, mandatory for euro-area PSPs under the IPR."
+                },
+                {
+                  "term": "SDD",
+                  "def": "SEPA Direct Debit. Core for consumers, with an eight-week unconditional refund right; B2B for businesses, with no refund right and mandate verification instead."
+                },
+                {
+                  "term": "OCT Inst",
+                  "def": "One-Leg Out Instant Credit Transfer — the EPC scheme for instant payments where one leg sits outside the EEA or in a non-euro currency. Governed by its own rulebook, separate from SCT Inst."
+                },
+                {
+                  "term": "OCT (cards)",
+                  "def": "Original Credit Transaction — a push of funds to a card, used by Visa Direct and Mastercard Send for payouts, disbursements and remittances. Unrelated to OCT Inst."
+                },
+                {
+                  "term": "AFT",
+                  "def": "Account Funding Transaction — the pull side of card push payments, funding a wallet or account from a card. AFT and OCT are typically paired to move money card-to-card."
+                },
+                {
+                  "term": "SRTP",
+                  "def": "SEPA Request-to-Pay. A messaging scheme, not a payment scheme — no money moves on it."
+                },
+                {
+                  "term": "EPC",
+                  "def": "European Payments Council. Owns and publishes the SEPA scheme rulebooks."
+                },
+                {
+                  "term": "CSM",
+                  "def": "Clearing and Settlement Mechanism — exchanges instructions between participants and calculates what each one owes. RT1, STEP2 and FedACH are CSMs."
+                },
+                {
+                  "term": "RTGS",
+                  "def": "Real-Time Gross Settlement — each payment settles individually and finally, usually in central bank money. T2 and Fedwire are RTGS systems."
+                },
+                {
+                  "term": "DNS",
+                  "def": "Deferred Net Settlement — obligations accumulate and offset, settling in cycles. Cheaper in liquidity, but participants carry exposure to each other in between."
+                },
+                {
+                  "term": "T2 / TIPS / RT1 / STEP2",
+                  "def": "The Eurosystem's RTGS; the Eurosystem's instant settlement service; EBA CLEARING's instant CSM; EBA CLEARING's bulk CSM. RT1 settles through TIPS."
+                },
+                {
+                  "term": "FPS / CHAPS / Bacs",
+                  "def": "The UK trio: Faster Payments for instant retail, CHAPS for high-value RTGS, Bacs for three-day batch including Direct Debit."
+                },
+                {
+                  "term": "ACH / EPN",
+                  "def": "Automated Clearing House — the US batch system, operated by the Federal Reserve as FedACH and by The Clearing House as EPN, under Nacha rules."
+                },
+                {
+                  "term": "RTP / RfP",
+                  "def": "The Clearing House's instant rail, and Request for Payment — the request-to-pay message that runs on it."
+                },
+                {
+                  "term": "NPP / UPI / Pix / SIC",
+                  "def": "Australia's New Payments Platform, India's Unified Payments Interface, Brazil's Pix, Switzerland's SIC. The domestic instant systems you will hear cited as benchmarks."
+                },
+                {
+                  "term": "PSD2 / PSD3 / PSR",
+                  "def": "The EU Payment Services Directives and the incoming Payment Services Regulation — licensing, open banking, SCA and fraud liability."
+                },
+                {
+                  "term": "IPR",
+                  "def": "Instant Payments Regulation — the EU law making instant euro payments mandatory, banning a price premium and requiring Verification of Payee."
+                },
+                {
+                  "term": "VoP",
+                  "def": "Verification of Payee — the EU beneficiary name check under the IPR. Returns match, close match or no match, and shifts liability if the payer proceeds against a warning."
+                },
+                {
+                  "term": "CoP",
+                  "def": "Confirmation of Payee — the UK equivalent, introduced earlier and under different rules. Same idea, different scheme: do not use the two names interchangeably."
+                },
+                {
+                  "term": "TPP / AISP / PISP",
+                  "def": "Third-Party Provider, and its two flavours: Account Information Service Provider reads data on consent; Payment Initiation Service Provider initiates payments from the payer's account. PISP is the licence that makes A2A commerce possible."
+                },
+                {
+                  "term": "VRP",
+                  "def": "Variable Recurring Payments — UK open-banking standing authority letting a payer approve repeated variable-amount payments within limits they set. The closest thing yet to a direct debit the payer actually controls."
+                },
+                {
+                  "term": "IFR / MIF / MSC",
+                  "def": "Interchange Fee Regulation; Multilateral Interchange Fee; Merchant Service Charge — the EU cap, the fee it caps, and the all-in price the merchant actually pays."
+                },
+                {
+                  "term": "SCA / 3DS / PCI DSS",
+                  "def": "Strong Customer Authentication; 3-D Secure, the protocol that usually delivers it online; and the card industry's data security standard — contractually mandatory rather than law."
+                },
+                {
+                  "term": "UETR",
+                  "def": "Unique End-to-end Transaction Reference — the UUID that makes a cross-border payment trackable across every intermediary."
+                },
+                {
+                  "term": "gpi",
+                  "def": "Swift's global payments innovation — tracking, transparency and confirmation across the correspondent chain. It gives you visibility, not speed."
+                },
+                {
+                  "term": "CBPR+",
+                  "def": "Cross-Border Payments and Reporting Plus — the Swift ISO 20022 usage guidelines and the migration deadlines that run through 2028."
+                },
+                {
+                  "term": "R-transaction",
+                  "def": "SEPA's collective term for rejects, returns, refunds, reversals and revocations. Where most operational cost lives."
+                },
+                {
+                  "term": "STP",
+                  "def": "Straight-through processing — a payment completing with no human touch. The straight-through rate is the industry's most quoted operational KPI."
+                },
+                {
+                  "term": "TFR",
+                  "def": "Transfer of Funds Regulation — the EU rules requiring originator and beneficiary information to travel with a payment, including for crypto-asset transfers."
+                },
+                {
+                  "term": "FIDA / DORA / MiCA",
+                  "def": "Open finance beyond payment accounts; auditable ICT resilience; and the EU crypto-asset regime covering stablecoin issuance, reserves and redemption."
+                }
+              ]
+            },
+            {
+              "t": "callout",
+              "title": "Two acronym traps worth knowing before you hit them",
+              "v": "<strong>OCT means two unrelated things.</strong> In a SEPA conversation it is One-Leg Out Instant Credit Transfer, an EPC scheme. In a card conversation it is Original Credit Transaction, a push to a card via Visa Direct or Mastercard Send. Context disambiguates, but only if you know both exist. <strong>CoP and VoP are not the same scheme.</strong> Confirmation of Payee is the UK's beneficiary name check; Verification of Payee is the EU's under the IPR. Same idea, different rulebooks, different match semantics and different liability. Using one name for the other in front of a European payments audience is a small tell."
+            },
+            {
+              "t": "note",
+              "v": "This decoder covers scheme and regulatory acronyms. Module 10 carries a separate glossary of operational terms of art — cut-off, nostro, prefunding, straight-through rate, scheme pack — which is the vocabulary you use in conversation rather than the names you have to look up."
+            }
+          ],
+          "resources": [
+            {
+              "tag": "Rulebook",
+              "title": "EPC — One-Leg Out Instant Credit Transfer scheme",
+              "url": "https://www.europeanpaymentscouncil.eu/what-we-do/epc-payment-schemes/one-leg-out-instant-credit-transfer",
+              "note": "The scheme behind the OCT Inst acronym. Worth five minutes purely to fix the distinction from Visa's OCT in your head."
+            },
+            {
+              "tag": "Rulebook",
+              "title": "EPC — key differences between OCT Inst and SCT Inst",
+              "url": "https://www.europeanpaymentscouncil.eu/document-library/other/key-differences-between-one-leg-out-instant-credit-transfer-and-sepa-instant",
+              "note": "A direct comparison from the scheme owner. The clearest short answer to \"why does SEPA need a second instant scheme?\""
+            },
+            {
+              "tag": "Spec",
+              "title": "Visa Direct developer documentation",
+              "url": "https://developer.visa.com/capabilities/visa_direct/docs",
+              "note": "Where OCT and AFT are defined in their card sense, by the scheme that invented them. Skim the transaction-type pages."
+            },
+            {
+              "tag": "Primer",
+              "title": "What are payment rails?",
+              "url": "https://stripe.com/resources/more/what-are-payment-rails",
+              "note": "Stripe. Re-read it now that you can separate topology from processing mode — it reads differently the second time."
+            },
+            {
+              "tag": "Regulator",
+              "title": "BIS CPMI cross-border payments programme",
+              "url": "https://www.bis.org/committees/cpmi/cross-border-payments/overview",
+              "note": "The home of the interlinking work, including Project Nexus. The definitional source for correspondent and chained topologies."
+            },
+            {
+              "tag": "Regulator",
+              "title": "ECB — digital euro",
+              "url": "https://www.ecb.europa.eu/euro/digital_euro/html/index.en.html",
+              "note": "Read this for the topology argument, not the speed one. Holding limits and disintermediation are the whole debate."
+            }
+          ],
+          "check": [
+            "Name the three axes and place a card payment on each one. Then do the same for UK Faster Payments and explain why they are mirror images.",
+            "List five topologies beyond A2A and give a real instrument that uses each.",
+            "Explain where account-to-account came from, and why it only became commercially viable recently despite being a century old.",
+            "Answer without hedging: is batch legacy technology? Justify it with a use case where batch is the correct choice.",
+            "Someone says \"we support OCT\". What two questions do you ask to work out what they mean?",
+            "Distinguish CoP from VoP, including who each one applies to."
+          ]
+        },
+        {
           "id": "clearing-settlement",
           "title": "Clearing is not settlement",
           "mins": 35,
