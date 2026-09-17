@@ -10,7 +10,7 @@
       "id": "orientation",
       "n": "00",
       "title": "Orientation",
-      "subtitle": "What you are actually preparing for, and the numbers that carry the argument",
+      "subtitle": "What you are actually preparing for, the numbers that carry the argument, and a map of the whole industry",
       "units": [
         {
           "id": "the-brief",
@@ -187,82 +187,12 @@
             "Recite the five benchmark figures without notes.",
             "Explain the RTP vs FedNow gap in one sentence that does not declare a winner."
           ]
-        }
-      ]
-    },
-    {
-      "id": "anatomy",
-      "n": "01",
-      "title": "Anatomy of a payment",
-      "subtitle": "What happens between \"send\" and \"credited\" — and where the money actually moves",
-      "units": [
-        {
-          "id": "lifecycle",
-          "title": "The payment lifecycle",
-          "mins": 45,
-          "objective": "Narrate a payment end to end from memory, including the steps everyone forgets.",
-          "blocks": [
-            {
-              "t": "h",
-              "v": "The four-step spine"
-            },
-            {
-              "t": "ol",
-              "v": [
-                "<strong>Initiation</strong> — the instruction arrives from a channel: API, host-to-host file, branch, card terminal, scheme gateway.",
-                "<strong>Validation and enrichment</strong> — format, scheme rulebook, business rules, account and routing resolution, currency, calendar and cut-off logic.",
-                "<strong>Clearing</strong> — the exchange of payment instructions and the calculation of obligations between participants.",
-                "<strong>Settlement</strong> — the actual discharge of those obligations, in central bank money or commercial bank money."
-              ]
-            },
-            {
-              "t": "h",
-              "v": "The steps everyone forgets"
-            },
-            {
-              "t": "ul",
-              "v": [
-                "Sanctions screening — a hard latency cost on every single payment, and a frequent source of holds.",
-                "Fraud scoring and Verification of Payee.",
-                "Limit and liquidity checks — can this customer, and can this bank, actually afford it right now?",
-                "Accounting and posting — usually the slowest and most legacy-bound integration in the platform.",
-                "Advice, reporting and reconciliation.",
-                "Exception handling — investigations, recalls, returns and repairs. Where most operational cost lives."
-              ]
-            },
-            {
-              "t": "h",
-              "v": "A payment is a state machine"
-            },
-            {
-              "t": "p",
-              "v": "Every payment must reach a terminal state — settled, rejected, returned. Non-terminal states (pending investigation, on hold, awaiting cover) are where risk accumulates. Hold on to this framing: everything in the architecture modules depends on seeing a payment this way."
-            }
-          ],
-          "resources": [
-            {
-              "tag": "Rulebook",
-              "title": "European Payments Council rulebooks",
-              "url": "https://www.europeanpaymentscouncil.eu/",
-              "note": "The SCT Inst rulebook is the clearest free document anywhere on how an instant scheme works end to end, including timeouts and R-transactions."
-            },
-            {
-              "tag": "Regulator",
-              "title": "BIS CPMI cross-border payments programme",
-              "url": "https://www.bis.org/committees/cpmi/cross-border-payments/overview",
-              "note": "The definitional home for clearing, settlement and correspondent banking. Skim the overview and glossary."
-            }
-          ],
-          "check": [
-            "Draw, without looking, the message exchange for a euro instant payment that succeeds — and one that times out at the beneficiary bank.",
-            "List the six steps between validation and settlement that are not \"clearing\"."
-          ]
         },
         {
           "id": "landscape",
           "title": "The payments landscape",
-          "mins": 60,
-          "objective": "Map the whole industry in one pass — instruments, schemes, business models, actors, money and rules — so that no term later in this course arrives unexplained.",
+          "mins": 50,
+          "objective": "Map the whole industry in one pass — instruments, schemes, business models, actors, money and rules — so that nothing later in this course arrives unexplained.",
           "blocks": [
             {
               "t": "p",
@@ -847,40 +777,6 @@
               "v": "Read that right-hand column again as a list of data requirements. Verification of Payee is sub-second name matching against a live beneficiary directory. Fraud-data sharing is an inter-institution data pipeline. DORA is evidence you can produce on demand. Structured addresses are a customer-data programme. Almost nothing on that list is really about messaging — which is the argument module 08 builds."
             },
             {
-              "t": "h",
-              "v": "What all of this demands technically"
-            },
-            {
-              "t": "p",
-              "v": "Everything above lands on the same platform, and it lands as two kinds of requirement. These are the headlines; modules 06 to 08 take each one apart."
-            },
-            {
-              "t": "ul",
-              "v": [
-                "<strong>Multi-scheme reachability and routing</strong> — which rail can reach this beneficiary, at what cost, within which cut-off.",
-                "<strong>A canonical internal model</strong> with per-scheme mapping in and out, so a new scheme is configuration rather than a rewrite.",
-                "<strong>The risk gauntlet in the payment path</strong> — sanctions screening, fraud scoring, Verification of Payee, limits, duplicate detection, each inside its share of the scheme's latency budget.",
-                "<strong>Real-time position keeping</strong> — can the customer afford it, and can the bank fund it on this rail right now, at three in the morning on a Sunday.",
-                "<strong>Mandate management</strong> for every pull instrument, and consent management for every agentic or open-banking one.",
-                "<strong>Exception handling</strong> — returns, recalls, investigations and repairs. The long tail with no SLA, the highest cost per item, and the worst tooling in most institutions.",
-                "<strong>Reconciliation</strong> against both the scheme and the ledger, because agreement with the counterparty is the only real proof of correctness.",
-                "<strong>Regulatory reporting and retention</strong> — every state transition reconstructable years later."
-              ]
-            },
-            {
-              "t": "ul",
-              "v": [
-                "<strong>24/7/365 with no maintenance window.</strong> Instant schemes removed the batch night, and the IPR made availability a legal obligation rather than an SLA.",
-                "<strong>A decomposed latency budget.</strong> The scheme gives you a total; you divide it across screening, fraud, orchestration, persistence and posting.",
-                "<strong>Peak-to-mean design.</strong> Payments are spiky — salary dates, tax deadlines, Black Friday. Averages are a trap.",
-                "<strong>RPO zero.</strong> For money movement, correctness beats availability at the point where they conflict.",
-                "<strong>Elastic horizontal scale</strong> in units you can add without a migration.",
-                "<strong>Data residency</strong> — increasingly decisive in Europe, and cheaper to design in than to retrofit.",
-                "<strong>Observability and auditability</strong> — every state transition traceable, retained and reconstructable for a regulator or a dispute.",
-                "<strong>Demonstrable resilience.</strong> Under DORA, recovery behaviour is evidence you produce, not a property you assert."
-              ]
-            },
-            {
               "t": "callout",
               "title": "The through-line",
               "v": "Every business model in this unit ends up as a non-functional requirement. A wallet that monetises float needs different data than an acquirer that monetises spread. An instant scheme's ten-second rule is a latency budget. An eight-week refund right is a retention policy. Regulation is a data requirement wearing a compliance hat. If you can walk that chain in both directions — from a commercial model down to an NFR, and back up — you can hold your own with anyone in this industry."
@@ -888,6 +784,10 @@
             {
               "t": "note",
               "v": "Where each thread continues: settlement and scheme mechanics in module 02, the rails market by market in 03, business models and institutions in 04, the regulatory clock in 05, payment hub architecture in 06, distributed architecture and integrity in 07, and the non-functional requirements and data argument in 08."
+            },
+            {
+              "t": "note",
+              "v": "<strong>Next —</strong> that is the map. The next module takes the single most important thing on it, a payment itself, and pulls it apart layer by layer. Come back here whenever a name turns up that you cannot place."
             }
           ],
           "resources": [
@@ -941,106 +841,498 @@
             "Name the five revenue streams and what is eroding each one.",
             "Pick one business model and walk it down to three non-functional requirements it forces on the platform."
           ]
-        },
+        }
+      ]
+    },
+    {
+      "id": "anatomy",
+      "n": "01",
+      "title": "Anatomy of a payment",
+      "subtitle": "Built one layer at a time: the lifecycle, then settlement, then the vocabulary, the properties, the messages and the flows — assembled at the end",
+      "units": [
         {
-          "id": "rails-terminology",
-          "title": "Rails — and the words everyone confuses",
-          "mins": 40,
-          "objective": "Define a payment rail, and separate real-time, instant and account-to-account for good.",
+          "id": "lifecycle",
+          "title": "The payment lifecycle",
+          "mins": 45,
+          "objective": "Narrate a payment end to end from memory, including the steps everyone forgets.",
           "blocks": [
             {
               "t": "h",
-              "v": "What a rail actually is"
+              "v": "The four-step spine"
             },
             {
-              "t": "p",
-              "v": "\"Rail\" is a metaphor that has hardened into a term of art. A payment rail is the combination of four things: a <strong>scheme rulebook</strong> (who may participate, what they must do, in what time, and who is liable), a <strong>message standard</strong>, the <strong>infrastructure</strong> that carries the messages, and a <strong>settlement arrangement</strong> that discharges the resulting obligations."
-            },
-            {
-              "t": "p",
-              "v": "Miss any one of those and you do not have a rail. This is why people argue about whether stablecoins are a rail: the infrastructure and messaging exist, the rulebook and the settlement finality are the contested parts."
-            },
-            {
-              "t": "p",
-              "v": "Rails are shared infrastructure. Products ride on them — Bizum, Zelle, Wero and a bank's own mobile app are not rails, they are propositions sitting on top of one. Keeping that distinction straight in conversation is a small thing that signals you know the domain."
+              "t": "ol",
+              "v": [
+                "<strong>Initiation</strong> — the instruction arrives from a channel: API, host-to-host file, branch, card terminal, scheme gateway.",
+                "<strong>Validation and enrichment</strong> — format, scheme rulebook, business rules, account and routing resolution, currency, calendar and cut-off logic.",
+                "<strong>Clearing</strong> — the exchange of payment instructions and the calculation of obligations between participants.",
+                "<strong>Settlement</strong> — the actual discharge of those obligations, in central bank money or commercial bank money."
+              ]
             },
             {
               "t": "h",
-              "v": "Three words that are not synonyms"
+              "v": "The steps everyone forgets"
             },
             {
               "t": "ul",
               "v": [
-                "<strong>Real-time payments</strong> — generic: clearing and confirmation within seconds, around the clock. Beware that <em>RTP</em> is also a proper noun, The Clearing House's US network. When someone says \"RTP\" in a US context, ask which one they mean; the ambiguity causes real confusion in vendor conversations.",
-                "<strong>Instant payments</strong> — the European scheme and regulatory term, with a precise definition: funds available to the beneficiary within ten seconds, 24/7/365, and irrevocable once accepted. SCT Inst and the Instant Payments Regulation use it this way.",
-                "<strong>Account-to-account (A2A)</strong> — describes the <em>route</em>: money moves bank account to bank account without a card network in the middle. It says nothing about speed."
+                "Sanctions screening — a hard latency cost on every single payment, and a frequent source of holds.",
+                "Fraud scoring and Verification of Payee.",
+                "Limit and liquidity checks — can this customer, and can this bank, actually afford it right now?",
+                "Accounting and posting — usually the slowest and most legacy-bound integration in the platform.",
+                "Advice, reporting and reconciliation.",
+                "Exception handling — investigations, recalls, returns and repairs. Where most operational cost lives."
               ]
             },
             {
-              "t": "callout",
-              "title": "The distinction to hold on to",
-              "v": "A2A is about <strong>topology</strong>. Real-time and instant are about <strong>speed and finality</strong>. They are independent axes. A standard SEPA Credit Transfer is A2A and slow. A card payment is fast to authorise and not A2A at all. SCT Inst happens to be both — which is exactly why people collapse the terms."
+              "t": "h",
+              "v": "A payment is a state machine"
+            },
+            {
+              "t": "p",
+              "v": "Every payment must reach a terminal state — settled, rejected, returned. Non-terminal states (pending investigation, on hold, awaiting cover) are where risk accumulates. Hold on to this framing: everything in the architecture modules depends on seeing a payment this way."
+            },
+            {
+              "t": "note",
+              "v": "<strong>Next —</strong> two words in that four-step spine do most of the work and are used interchangeably almost everywhere: <em>clearing</em> and <em>settlement</em>. Separating them is the next unit, because nearly everything else in payments follows from that one distinction."
+            }
+          ],
+          "resources": [
+            {
+              "tag": "Rulebook",
+              "title": "European Payments Council rulebooks",
+              "url": "https://www.europeanpaymentscouncil.eu/",
+              "note": "The SCT Inst rulebook is the clearest free document anywhere on how an instant scheme works end to end, including timeouts and R-transactions."
+            },
+            {
+              "tag": "Regulator",
+              "title": "BIS CPMI cross-border payments programme",
+              "url": "https://www.bis.org/committees/cpmi/cross-border-payments/overview",
+              "note": "The definitional home for clearing, settlement and correspondent banking. Skim the overview and glossary."
+            }
+          ],
+          "check": [
+            "Draw, without looking, the message exchange for a euro instant payment that succeeds — and one that times out at the beneficiary bank.",
+            "List the six steps between validation and settlement that are not \"clearing\"."
+          ]
+        },
+        {
+          "id": "clearing-settlement",
+          "title": "Clearing is not settlement",
+          "mins": 35,
+          "objective": "Distinguish RTGS from deferred net settlement, and explain how instant schemes sit between them.",
+          "blocks": [
+            {
+              "t": "h",
+              "v": "Two settlement models"
+            },
+            {
+              "t": "ul",
+              "v": [
+                "<strong>RTGS — real-time gross settlement.</strong> Every payment settles individually and finally in central bank money. No netting, no credit risk between participants, but high liquidity demand. T2 in the euro area, Fedwire in the US.",
+                "<strong>DNS — deferred net settlement.</strong> Obligations accumulate and net down, settling in cycles. Liquidity-efficient, but participants carry exposure to each other between cycles. ACH and CHIPS work this way."
+              ]
             },
             {
               "t": "h",
-              "v": "The grid, filled in"
+              "v": "Where instant payments sit"
+            },
+            {
+              "t": "p",
+              "v": "Instant schemes are a hybrid: instant and final to the customer, but underneath either prefunded (participants park cash at the clearing and settlement mechanism) or net-settled on a short cycle. This is why prefunding is a real treasury cost and a common objection in any instant-payments business case."
+            },
+            {
+              "t": "h",
+              "v": "Push versus pull"
+            },
+            {
+              "t": "p",
+              "v": "Credit transfer, direct debit, card authorisation-then-capture, request-to-pay. Each has a different failure mode and a different dispute regime — which is exactly where card economics and account-to-account economics diverge. A card chargeback and a SEPA direct debit refund look similar to a customer and nothing alike to a bank."
+            },
+            {
+              "t": "note",
+              "v": "The single most useful sentence you can carry out of this unit: a customer can be told a payment is confirmed before settlement has occurred, and someone is carrying risk in that gap. Know who, for each rail."
+            },
+            {
+              "t": "note",
+              "v": "<strong>Next —</strong> you now have the mechanics of how money actually moves. What you do not yet have is precise language for <em>which</em> payment you are describing. The next unit supplies it: the four layers — instrument, service, scheme, rail — and why calling \"instant payments\" a rail is a category error."
+            }
+          ],
+          "resources": [
+            {
+              "tag": "Regulator",
+              "title": "BIS CPMI — Enhancing cross-border payments step by step",
+              "url": "https://www.bis.org/cpmi/publ/brief13.pdf",
+              "note": "Short, dense, written by the people who set the agenda."
+            }
+          ],
+          "check": [
+            "Explain in two sentences why a payment can be confirmed to a customer before settlement, and who carries the risk.",
+            "Describe what prefunding is and why a treasurer objects to it."
+          ]
+        },
+        {
+          "id": "rails-terminology",
+          "title": "Instrument, service, scheme, rail — what a rail actually is",
+          "mins": 50,
+          "objective": "Separate the four layers that get collapsed into the word \"rail\", and be able to name the real rail any payment runs on.",
+          "blocks": [
+            {
+              "t": "p",
+              "v": "You can now narrate a payment and separate clearing from settlement. This unit gives you the vocabulary to describe <em>which</em> payment you are talking about — and it starts by fixing a category error that is everywhere in this industry. \"Instant payments\", \"real-time payments\" and \"account-to-account\" are routinely called rails. None of them is one."
+            },
+            {
+              "t": "callout",
+              "title": "What a rail actually is",
+              "v": "A rail is the <strong>concrete, named, operational path</strong> a payment travels: a clearing infrastructure, plus a settlement arrangement, speaking a defined message standard, operated by a named organisation. The test is simple — <em>can you name the infrastructure and say where the money settles?</em> If yes, you are describing a rail. If no, you are describing an instrument, a service, a scheme, or a property of one of them."
+            },
+            {
+              "t": "h",
+              "v": "Four layers, and what each one answers"
             },
             {
               "t": "table",
               "head": [
-                "Instrument",
-                "A2A?",
-                "Speed",
-                "Reversible?"
+                "Layer",
+                "The question it answers",
+                "What it is",
+                "Examples"
               ],
               "rows": [
                 [
-                  "SCT Inst / FedNow / RTP",
-                  "Yes",
-                  "Seconds, 24/7",
-                  "No — irrevocable once accepted"
+                  "Instrument",
+                  "What form does the payment take?",
+                  "The mechanics of how value is claimed — the classic central-bank taxonomy",
+                  "Credit transfer, direct debit, card payment, e-money, cash, cheque"
                 ],
                 [
-                  "SCT (standard SEPA)",
-                  "Yes",
-                  "Next business day",
-                  "Only by recall request, at the beneficiary's discretion"
+                  "Service",
+                  "What is the customer buying?",
+                  "A PSP's product, built on an instrument and marketed to a segment",
+                  "Instant payment, same-day transfer, standing order, card acceptance, request to pay"
                 ],
                 [
-                  "SEPA Direct Debit Core",
-                  "Yes",
-                  "Days, on a mandate cycle",
-                  "Yes — 8 weeks no-questions-asked refund"
+                  "Scheme",
+                  "Under whose rules, and with what liability?",
+                  "An agreed rulebook that makes a service interoperable between PSPs — timing, message set, liability, participation criteria",
+                  "SCT Inst, SDD Core, Visa, FedNow, Bacs Direct Debit, SRTP"
                 ],
                 [
-                  "ACH credit (US)",
-                  "Yes",
-                  "Batch, same-day option",
-                  "Limited return rights"
+                  "Rail",
+                  "What does it actually run on?",
+                  "Clearing infrastructure plus a settlement arrangement, speaking a message standard",
+                  "RT1 settling in TIPS; STEP2 settling in T2; FedACH settling in Fed master accounts; VisaNet"
+                ]
+              ]
+            },
+            {
+              "t": "p",
+              "v": "Read top to bottom: an instrument is a <em>category</em>, a service is a <em>product</em>, a scheme is a <em>contract</em>, and a rail is <em>machinery</em>. Four different kinds of thing. A sentence that mixes two of them without noticing is a sentence that will not survive a question from someone who builds this for a living."
+            },
+            {
+              "t": "h",
+              "v": "The two facts that prove a scheme is not a rail"
+            },
+            {
+              "t": "callout",
+              "title": "Many-to-many, in both directions",
+              "v": "<strong>One scheme, two rails.</strong> SCT Inst is a single scheme with one rulebook. A euro PSP can reach it through <em>TIPS</em> or through <em>RT1</em> — two different clearing infrastructures, with different liquidity models and different operators, carrying identical scheme rules. Same contract, different machinery. <strong>One rail, many schemes.</strong> STEP2 carries SCT, SDD Core and SDD B2B. Same machinery, three different rulebooks. If scheme and rail were the same thing, neither of these could be true."
+            },
+            {
+              "t": "p",
+              "v": "The UK makes the split visible in the org chart. The Faster Payments <em>scheme</em> is owned and governed by <strong>Pay.UK</strong>. The <em>infrastructure</em> that actually runs it is built and operated by <strong>Vocalink</strong> — which is 97.3% owned by Mastercard. Two organisations, two layers, and one of them is a card scheme running the country's account-to-account rail. When a UK banker says \"we're connecting to Faster Payments\", ask whether they mean adhering to the scheme or integrating with the infrastructure. The work, the contracts and the timelines are different."
+            },
+            {
+              "t": "h",
+              "v": "So what are instant payments, real-time payments and A2A?"
+            },
+            {
+              "t": "table",
+              "head": [
+                "Term",
+                "What kind of thing it is",
+                "Where it belongs",
+                "Why it is not a rail"
+              ],
+              "rows": [
+                [
+                  "Instant payments",
+                  "A service, defined by a scheme's timing rules",
+                  "Service and scheme",
+                  "It names a customer promise and a rulebook, not infrastructure. SCT Inst runs on two different rails, so the term cannot identify one"
                 ],
                 [
-                  "Card payment",
-                  "No — via scheme rails",
-                  "Authorisation in seconds, settlement in days",
-                  "Yes — chargeback rights"
+                  "Real-time payments",
+                  "A generic speed descriptor — and, capitalised, the name of The Clearing House's network",
+                  "A property, or one specific scheme with its own rail",
+                  "As a descriptor it says nothing about infrastructure. As a proper noun it is a scheme that happens to have a dedicated rail, which is why people generalise from it wrongly"
                 ],
                 [
-                  "Card push / OCT",
-                  "No",
-                  "Near-instant to the card",
-                  "Limited"
+                  "Account-to-account",
+                  "A topology — what sits between the endpoints",
+                  "A property of the rail",
+                  "It describes the shape of the path, not the path itself. Most domestic rails are A2A, so it does not distinguish them"
                 ],
                 [
-                  "Zelle",
-                  "Overlay on A2A",
-                  "Feels instant to the user",
-                  "Very limited"
+                  "Faster Payments",
+                  "A scheme, with a rail underneath it",
+                  "Scheme",
+                  "You can name its rail and its operator separately from the scheme — which is precisely how you know the two are distinct"
+                ],
+                [
+                  "RTGS",
+                  "A settlement model",
+                  "A component of a rail",
+                  "It is one property of how a rail settles, not the rail. T2, Fedwire and TIPS are all RTGS and all different rails"
+                ],
+                [
+                  "ISO 20022",
+                  "A message standard",
+                  "A component of a rail",
+                  "It is the language, not the road. Dozens of unrelated rails speak it"
                 ]
               ]
             },
             {
               "t": "note",
-              "v": "Read the reversibility column as the risk column. Irrevocability is what makes instant rails attractive to a merchant and terrifying to a fraud team — it is also why Verification of Payee exists, and why authorised push payment fraud became a policy problem rather than a bank problem."
+              "v": "Apply the test to each row and it resolves itself. \"Instant payments\" — name the infrastructure. You cannot, because it is a category. \"TIPS\" — Eurosystem infrastructure, settling in central bank money on Dedicated Cash Accounts. That is a rail."
+            },
+            {
+              "t": "h",
+              "v": "Real rails, named"
+            },
+            {
+              "t": "table",
+              "head": [
+                "Rail",
+                "Operated by",
+                "Settlement",
+                "Message standard",
+                "Schemes it carries"
+              ],
+              "rows": [
+                [
+                  "TIPS",
+                  "The Eurosystem",
+                  "Gross, in central bank money on Dedicated Cash Accounts",
+                  "ISO 20022",
+                  "SCT Inst, OCT Inst"
+                ],
+                [
+                  "RT1",
+                  "EBA CLEARING",
+                  "Gross, in central bank funds via a technical account held in TIPS",
+                  "ISO 20022",
+                  "SCT Inst, OCT Inst"
+                ],
+                [
+                  "STEP2",
+                  "EBA CLEARING",
+                  "Net, settled in T2",
+                  "ISO 20022",
+                  "SCT, SDD Core, SDD B2B"
+                ],
+                [
+                  "T2",
+                  "The Eurosystem",
+                  "Gross, in central bank money",
+                  "ISO 20022",
+                  "High-value euro transfers; ancillary system settlement"
+                ],
+                [
+                  "Faster Payments infrastructure",
+                  "Vocalink, for the Pay.UK scheme",
+                  "Net, prefunded in collateral accounts at the Bank of England",
+                  "ISO 8583-derived, migrating to ISO 20022",
+                  "UK Faster Payments"
+                ],
+                [
+                  "Bacs infrastructure",
+                  "Vocalink, for the Pay.UK scheme",
+                  "Net, on a three-day cycle, at the Bank of England",
+                  "Standard 18",
+                  "Bacs Direct Credit, Bacs Direct Debit"
+                ],
+                [
+                  "CHAPS",
+                  "The Bank of England",
+                  "Gross, in central bank money",
+                  "ISO 20022",
+                  "CHAPS"
+                ],
+                [
+                  "FedACH",
+                  "The Federal Reserve",
+                  "Net, in Fed master accounts",
+                  "Nacha formats",
+                  "ACH credit and debit"
+                ],
+                [
+                  "EPN",
+                  "The Clearing House",
+                  "Net, in Fed master accounts",
+                  "Nacha formats",
+                  "ACH credit and debit"
+                ],
+                [
+                  "FedNow",
+                  "The Federal Reserve",
+                  "Gross, in Fed master accounts",
+                  "ISO 20022",
+                  "FedNow"
+                ],
+                [
+                  "RTP",
+                  "The Clearing House",
+                  "Gross, from a prefunded joint account at the Federal Reserve",
+                  "ISO 20022",
+                  "RTP, Request for Payment"
+                ],
+                [
+                  "Fedwire Funds",
+                  "The Federal Reserve",
+                  "Gross, in Fed master accounts",
+                  "ISO 20022",
+                  "Fedwire funds transfers"
+                ],
+                [
+                  "CHIPS",
+                  "The Clearing House",
+                  "Net, with same-day finality",
+                  "ISO 20022",
+                  "CHIPS"
+                ],
+                [
+                  "VisaNet",
+                  "Visa",
+                  "Net, through settlement banks",
+                  "ISO 8583-based, migrating to ISO 20022",
+                  "Visa credit, debit and Visa Direct"
+                ]
+              ]
+            },
+            {
+              "t": "callout",
+              "title": "Swift is not a rail",
+              "v": "It is a <strong>messaging network</strong>. It carries instructions between institutions and settles nothing — the money moves on correspondent accounts that Swift never touches. This is the most common category error in cross-border conversations, and it matters commercially: it is why \"we're on Swift\" tells you nothing about how long a payment takes or who holds the liquidity. Swift gpi adds tracking to those messages. It still does not move money."
+            },
+            {
+              "t": "h",
+              "v": "Walking three payments down the stack"
+            },
+            {
+              "t": "table",
+              "head": [
+                "Layer",
+                "Euro instant retail payment",
+                "UK salary run",
+                "Card purchase in a shop"
+              ],
+              "rows": [
+                [
+                  "Instrument",
+                  "Credit transfer",
+                  "Credit transfer",
+                  "Card payment"
+                ],
+                [
+                  "Service",
+                  "Instant payment",
+                  "Bulk credit — payroll",
+                  "Card acceptance"
+                ],
+                [
+                  "Scheme",
+                  "SCT Inst",
+                  "Bacs Direct Credit",
+                  "Visa"
+                ],
+                [
+                  "Rail",
+                  "RT1 or TIPS — the PSP chooses",
+                  "Bacs infrastructure, settling at the Bank of England",
+                  "VisaNet, settling through settlement banks"
+                ],
+                [
+                  "Topology",
+                  "Account-to-account",
+                  "Account-to-account",
+                  "Four-party"
+                ],
+                [
+                  "Processing mode",
+                  "Single-message",
+                  "Batch, three-day cycle",
+                  "Real-time authorisation, batch clearing"
+                ],
+                [
+                  "Settlement",
+                  "Gross and immediate",
+                  "Net, on day three",
+                  "Net, days later"
+                ]
+              ]
+            },
+            {
+              "t": "p",
+              "v": "Notice what changes down each column and what does not. The euro payment and the salary run share an instrument and a topology, and differ at every other layer. The card purchase shares nothing with either except that a person is paying someone. That is why \"payments\" as a single word is nearly meaningless, and why every serious conversation starts by pinning which layer is being discussed."
+            },
+            {
+              "t": "h",
+              "v": "Where the properties attach"
+            },
+            {
+              "t": "table",
+              "head": [
+                "Property",
+                "Set by",
+                "Worked example"
+              ],
+              "rows": [
+                [
+                  "Topology",
+                  "The rail",
+                  "RT1 is account-to-account; VisaNet is four-party"
+                ],
+                [
+                  "Speed promise",
+                  "The scheme",
+                  "SCT Inst's ten seconds is a rulebook obligation on participants, not a limit of the infrastructure"
+                ],
+                [
+                  "Settlement finality",
+                  "The rail's settlement arrangement",
+                  "TIPS is gross and final on the spot; STEP2 nets and settles later"
+                ],
+                [
+                  "Liability and refund rights",
+                  "The scheme",
+                  "SDD Core's eight-week unconditional refund exists in the rulebook, nowhere else"
+                ],
+                [
+                  "Availability",
+                  "The rail, within what the scheme demands",
+                  "TIPS runs 24/7/365; T2 does not"
+                ],
+                [
+                  "Message format",
+                  "The rail, as specified by the scheme",
+                  "SCT Inst is ISO 20022 on both TIPS and RT1"
+                ]
+              ]
+            },
+            {
+              "t": "callout",
+              "title": "Four questions for a vague claim",
+              "v": "When a vendor, a colleague or a press release says something imprecise about payments, ask in this order: <strong>What instrument? What service? Which scheme? Which rail?</strong> Most pitches answer two of the four confidently and slide past the others. The two they skip tell you what has not been built yet — and asking in that order, without accusation, is one of the most useful habits you can develop in this industry."
+            },
+            {
+              "t": "note",
+              "v": "\"We support instant payments\" is therefore an incomplete statement, not a false one. Which scheme — SCT Inst, FedNow, RTP, Faster Payments? On which rail, where more than one exists? With what availability and what reach? Those follow-ups are not pedantry; they are the difference between an integration that takes a quarter and one that takes two years."
+            },
+            {
+              "t": "note",
+              "v": "<strong>Next —</strong> topology and processing mode were named there as properties that attach to a rail. The next unit takes them apart properly, adds the third axis, and decodes the scheme acronyms you have been meeting since the start."
             }
           ],
           "resources": [
@@ -1048,31 +1340,46 @@
               "tag": "Primer",
               "title": "What are payment rails?",
               "url": "https://stripe.com/resources/more/what-are-payment-rails",
-              "note": "Stripe. The clearest short explanation of the concept, and free."
+              "note": "Stripe. A good short primer — read it critically, noticing where it uses \"rail\" loosely for what this unit calls a scheme or a service. That critical read is the exercise."
             },
             {
-              "tag": "Primer",
-              "title": "Real-time payments explained",
-              "url": "https://stripe.com/resources/more/real-time-payments-explained",
-              "note": "Useful for how the term is used commercially, as against how schemes define it."
+              "tag": "Regulator",
+              "title": "ECB — TARGET services",
+              "url": "https://www.ecb.europa.eu/paym/target/html/index.en.html",
+              "note": "T2 and TIPS described by the operator. The clearest demonstration anywhere that a rail is a named, operated piece of infrastructure."
             },
             {
-              "tag": "Primer",
-              "title": "Real-time payments vs. ACH",
-              "url": "https://stripe.com/resources/more/real-time-payments-vs-ach",
-              "note": "Settlement speed, reversibility and when each is the right choice — the reversibility framing is the valuable part."
+              "tag": "Operator",
+              "title": "RT1 — EBA CLEARING",
+              "url": "https://www.ebaclearing.eu/services-instant-payments/rt1/",
+              "note": "The second rail carrying SCT Inst. Read it against the TIPS page: same scheme, different machinery. This pair is the proof that scheme and rail are separate layers."
             },
             {
-              "tag": "Primer",
-              "title": "Pay by bank vs. cards: the real cost",
-              "url": "https://stripe.com/resources/more/pay-by-bank-vs-cards",
-              "note": "A2A versus cards from the merchant's side, which is where the economics actually bite."
+              "tag": "Operator",
+              "title": "Pay.UK",
+              "url": "https://www.wearepay.uk/",
+              "note": "The scheme owner for Faster Payments and Bacs. Note how carefully the site distinguishes the schemes it governs from the infrastructure that runs them."
+            },
+            {
+              "tag": "Operator",
+              "title": "Federal Reserve Financial Services — FedNow",
+              "url": "https://www.frbservices.org/financial-services/fednow",
+              "note": "A rail and its scheme owned by the same organisation — the opposite arrangement to the UK, and a useful contrast."
+            },
+            {
+              "tag": "Standard",
+              "title": "Swift ISO 20022 resource centre",
+              "url": "https://www.swift.com/standards/iso-20022",
+              "note": "The message standard that dozens of unrelated rails now share. Proof that the language and the road are different things."
             }
           ],
           "check": [
-            "Define a payment rail in one sentence using all four components.",
-            "Give an example of something that is A2A but not instant, and something that is instant but not A2A.",
-            "Explain why irrevocability is both the selling point and the central risk of instant rails."
+            "Define instrument, service, scheme and rail in one sentence each, without using any of the other three words in its own definition.",
+            "Explain why SCT Inst proves a scheme is not a rail. Then explain why STEP2 proves it from the other direction.",
+            "Someone says \"instant payments is a rail\". Correct them in two sentences without being pedantic about it.",
+            "Name the rail, the operator and the settlement arrangement for: a euro instant payment, a UK salary run, and a card purchase.",
+            "Explain why Swift is not a rail, and what that means for how long a cross-border payment takes.",
+            "For each of topology, speed promise and refund rights, say which layer sets it."
           ]
         },
         {
@@ -1499,6 +1806,10 @@
             {
               "t": "note",
               "v": "This decoder covers scheme and regulatory acronyms. Module 10 carries a separate glossary of operational terms of art — cut-off, nostro, prefunding, straight-through rate, scheme pack — which is the vocabulary you use in conversation rather than the names you have to look up."
+            },
+            {
+              "t": "note",
+              "v": "<strong>Next —</strong> you can now describe any payment's structure and its properties. What remains is how the instruction is actually expressed on the wire — the message layer, and the identifiers that make a payment traceable."
             }
           ],
           "resources": [
@@ -1546,57 +1857,6 @@
             "Answer without hedging: is batch legacy technology? Justify it with a use case where batch is the correct choice.",
             "Someone says \"we support OCT\". What two questions do you ask to work out what they mean?",
             "Distinguish CoP from VoP, including who each one applies to."
-          ]
-        },
-        {
-          "id": "clearing-settlement",
-          "title": "Clearing is not settlement",
-          "mins": 35,
-          "objective": "Distinguish RTGS from deferred net settlement, and explain how instant schemes sit between them.",
-          "blocks": [
-            {
-              "t": "h",
-              "v": "Two settlement models"
-            },
-            {
-              "t": "ul",
-              "v": [
-                "<strong>RTGS — real-time gross settlement.</strong> Every payment settles individually and finally in central bank money. No netting, no credit risk between participants, but high liquidity demand. T2 in the euro area, Fedwire in the US.",
-                "<strong>DNS — deferred net settlement.</strong> Obligations accumulate and net down, settling in cycles. Liquidity-efficient, but participants carry exposure to each other between cycles. ACH and CHIPS work this way."
-              ]
-            },
-            {
-              "t": "h",
-              "v": "Where instant payments sit"
-            },
-            {
-              "t": "p",
-              "v": "Instant schemes are a hybrid: instant and final to the customer, but underneath either prefunded (participants park cash at the clearing and settlement mechanism) or net-settled on a short cycle. This is why prefunding is a real treasury cost and a common objection in any instant-payments business case."
-            },
-            {
-              "t": "h",
-              "v": "Push versus pull"
-            },
-            {
-              "t": "p",
-              "v": "Credit transfer, direct debit, card authorisation-then-capture, request-to-pay. Each has a different failure mode and a different dispute regime — which is exactly where card economics and account-to-account economics diverge. A card chargeback and a SEPA direct debit refund look similar to a customer and nothing alike to a bank."
-            },
-            {
-              "t": "note",
-              "v": "The single most useful sentence you can carry out of this unit: a customer can be told a payment is confirmed before settlement has occurred, and someone is carrying risk in that gap. Know who, for each rail."
-            }
-          ],
-          "resources": [
-            {
-              "tag": "Regulator",
-              "title": "BIS CPMI — Enhancing cross-border payments step by step",
-              "url": "https://www.bis.org/cpmi/publ/brief13.pdf",
-              "note": "Short, dense, written by the people who set the agenda."
-            }
-          ],
-          "check": [
-            "Explain in two sentences why a payment can be confirmed to a customer before settlement, and who carries the risk.",
-            "Describe what prefunding is and why a treasurer objects to it."
           ]
         },
         {
@@ -1668,6 +1928,10 @@
             {
               "t": "note",
               "v": "Spend a real hour inside an actual pacs.008 definition on iso20022.org. It is worth ten hours of vendor explainers, and it is where the data-layer argument later in this course comes from — the message is deeply nested, optional-field-heavy, and versioned annually."
+            },
+            {
+              "t": "note",
+              "v": "<strong>Next —</strong> you can read a payment instruction. The next unit follows one in both directions through a real platform, and shows why sending and receiving are not mirror images of each other."
             }
           ],
           "resources": [
@@ -1750,6 +2014,10 @@
                 "<strong>Recalls</strong> — a <code>camt.056</code> arriving about a payment you sent is an inbound request that triggers outbound work, and needs a human decision inside a scheme deadline.",
                 "<strong>Investigations</strong> — the long-tail flow with no SLA, the highest cost per item, and the worst tooling in most banks."
               ]
+            },
+            {
+              "t": "note",
+              "v": "<strong>Next —</strong> that is the whole anatomy: the lifecycle, the settlement models, the vocabulary stack, the properties, the messages and the two flows. The final unit assembles every one of them into a single matrix you can read across or down."
             }
           ],
           "resources": [
@@ -1780,7 +2048,7 @@
           "blocks": [
             {
               "t": "p",
-              "v": "You now have the pieces: the lifecycle, the rails, clearing versus settlement, the message layer, the two directions of flow. This unit assembles them. Five tables, all sharing the same eight rows in the same order, so that reading one service straight down gives you its complete picture — what happens at each stage, what it runs on, who is involved, who gets paid, and what it looks like in each major market."
+              "v": "Six units, one layer at a time: the lifecycle, clearing versus settlement, the instrument-service-scheme-rail stack, the properties that attach to each layer, the message format, and the two directions of flow. This unit assembles them. Five tables, all sharing the same eight rows in the same order, so that reading one service straight down gives you its complete picture — what happens at each lifecycle stage, what it runs on, who is involved, who pays, and what it is called in each major market."
             },
             {
               "t": "callout",
