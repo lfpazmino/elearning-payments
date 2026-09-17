@@ -3,4 +3,6 @@ node_modules/
 out/
 *.tsbuildinfo
 .DS_Store
+
 FEATURES.md
+QA.md
