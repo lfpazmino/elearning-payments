@@ -1,4 +1,4 @@
-import courseData from "./course.json";
+import courseData from "./course-openai.json";
 import { courseSchema, type Course } from "./schema";
 
 // Parsed once at build/import time. The prebuild gate (scripts/validate-content.ts)

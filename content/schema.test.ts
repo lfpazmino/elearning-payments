@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import courseData from "./course.json";
+import courseData from "./course-claude.json";
 import { courseSchema } from "./schema";
 
 describe("course schema", () => {

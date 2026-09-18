@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { courseSchema } from "../content/schema";
 
-const raw = JSON.parse(readFileSync(join(process.cwd(), "content", "course.json"), "utf8"));
+const raw = JSON.parse(readFileSync(join(process.cwd(), "content", "course-claude.json"), "utf8"));
 const result = courseSchema.safeParse(raw);
 
 if (!result.success) {
